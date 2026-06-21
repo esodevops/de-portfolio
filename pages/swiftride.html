@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftRide Logistics - Data Engineering Portfolio</title>
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <style>
+        /* Custom styles for SwiftRide page */
+        body {
+            padding-top: 3.5em;
+        }
+
+        .page-wrapper {
+            padding: 4em 0;
+        }
+
+        .project-header {
+            text-align: center;
+            margin-bottom: 3em;
+        }
+
+        .project-header h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+            color: #3e3e3e;
+        }
+
+        .project-header .subtitle {
+            font-size: 1.2em;
+            color: #888;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-nav {
+            margin-bottom: 2em;
+        }
+
+        .back-nav a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5em;
+            color: #43B3E0;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .back-nav a:hover {
+            color: #43bff0;
+        }
+
+        .back-nav a::before {
+            content: '\2190';
+            font-size: 1.2em;
+        }
+
+        .project-content {
+            background: #fff;
+            border-radius: 8px;
+            padding: 2.5em;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2em;
+        }
+
+        .project-image {
+            margin: 2em 0;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .project-description {
+            text-align: justify;
+            line-height: 1.85em;
+            margin-bottom: 1.5em;
+        }
+
+        .feature-box {
+            background-color: #f8f9fa;
+            padding: 1.5em;
+            border-left: 4px solid #43B3E0;
+            border-radius: 4px;
+            margin: 2em 0;
+        }
+
+        .feature-box h4 {
+            color: #3e3e3e;
+            margin-bottom: 1em;
+            font-size: 1.1em;
+        }
+
+        .feature-box p {
+            color: #555;
+            margin-bottom: 0;
+        }
+
+        .feature-box ul {
+            list-style: disc;
+            margin-left: 1.5em;
+            margin-bottom: 0;
+        }
+
+        .feature-box li {
+            margin-bottom: 0.5em;
+            color: #555;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1em;
+            margin-top: 2em;
+            flex-wrap: wrap;
+        }
+
+        .action-buttons .button {
+            margin-bottom: 0;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5em;
+            margin: 2em 0;
+        }
+
+        .tech-tag {
+            background: #f0f0f0;
+            color: #555;
+            padding: 0.3em 0.8em;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .section-divider {
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #ddd, transparent);
+            margin: 2em 0;
+        }
+
+        .highlight-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+            padding: 2em;
+            border-radius: 8px;
+            margin: 2em 0;
+        }
+
+        .highlight-section h3 {
+            color: #3e3e3e;
+            margin-bottom: 1em;
+        }
+
+        @media screen and (max-width: 736px) {
+            .project-content {
+                padding: 1.5em;
+            }
+
+            .project-header h1 {
+                font-size: 1.8em;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body class="is-preload">
+
+    <!-- Navigation -->
+    <nav id="nav">
+        <ul class="container">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#results">Results</a></li>
+            <li><a href="#analytics">Analytics</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <article id="top" class="wrapper" style="background: #fcfcfc;">
+        <div class="container">
+            <!-- Back Navigation -->
+            <div class="back-nav">
+                <a href="../index.html">Back to Portfolio</a>
+            </div>
+
+            <!-- Project Header -->
+            <header class="project-header">
+                <h1>SwiftRide Logistics</h1>
+                <p class="subtitle">Production-Ready PostgreSQL Data Platform</p>
+            </header>
+
+            <!-- Project Content -->
+            <div class="project-content" id="overview">
+                <!-- Project Image -->
+                <div class="project-image">
+                    <img src="../images/swiftride.jpg" alt="SwiftRide Logistics Data Platform" />
+                </div>
+
+                <!-- Description -->
+                <div class="project-description">
+                    <p>
+                        Designed and deployed a relational data platform for a logistics company, replacing fragmented operational
+                        records with a governed PostgreSQL system hosted on Supabase. The solution organizes customers, orders,
+                        deliveries, drivers, vehicles, warehouses, inventory, and payments across four business schemas while
+                        preserving end-to-end referential integrity.
+                    </p>
+                    <p>
+                        Built a one-command Bash loader that initializes the schema, applies validation constraints, imports CSV
+                        files in foreign-key-safe order, repairs PostgreSQL sequences, and verifies row counts after ingestion.
+                        Added DDL, DML, DQL, and DCL layers, environment-based credential handling, cascading rules, and
+                        role-based access patterns for production-minded database operations.
+                    </p>
+                </div>
+
+                <!-- Technology Tags -->
+                <div class="tech-tags">
+                    <span class="tech-tag">PostgreSQL</span>
+                    <span class="tech-tag">Supabase</span>
+                    <span class="tech-tag">Bash</span>
+                    <span class="tech-tag">SQL</span>
+                    <span class="tech-tag">Data Modeling</span>
+                    <span class="tech-tag">ETL</span>
+                    <span class="tech-tag">Logistics</span>
+                    <span class="tech-tag">RBAC</span>
+                </div>
+
+                <hr class="section-divider" />
+
+                <!-- Results Section -->
+                <div id="results">
+                    <div class="feature-box">
+                        <h4><strong>Measured Results</strong></h4>
+                        <ul>
+                            <li>3,960 records integrated across 8 relational tables and 4 schemas.</li>
+                            <li>600 orders, deliveries, and payments analyzed across the operational lifecycle.</li>
+                            <li>$110.2M in total order value surfaced for revenue and customer-value analysis.</li>
+                            <li>62 pending deliveries and 10 low-stock items identified for management action.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <hr class="section-divider" />
+
+                <!-- Analytics Section -->
+                <div id="analytics">
+                    <div class="highlight-section">
+                        <h3>Analytics & Reporting</h3>
+                        <p class="project-description">
+                            Converted SQL analysis into stakeholder-ready outputs. The reports translate customer value, driver workload, delivery performance,
+                            payment health, revenue, and inventory risk into clear operational recommendations.
+                        </p>
+                    </div>
+                </div>
+
+                <hr class="section-divider" />
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <a href="https://ik.imagekit.io/wiryqrudj/swiftride_management_report.pdf" 
+                       target="_blank" 
+                       class="button">
+                        View Report
+                    </a>
+                    <a href="https://github.com/esodevops/swiftride-logistics-database" 
+                       target="_blank" 
+                       class="button alt">
+                        <span class="icon brands fa-github" style="margin-right: 0.3em;"></span>
+                        View on GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 2em 0; color: #888;">
+        <p style="margin: 0;">&copy; 2024 Data Engineering Portfolio. Built with the Miniport template.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/jquery.scrolly.min.js"></script>
+    <script src="../assets/js/browser.min.js"></script>
+    <script src="../assets/js/breakpoints.min.js"></script>
+    <script src="../assets/js/util.js"></script>
+    <script src="../assets/js/main.js"></script>
+
+</body>
+</html>

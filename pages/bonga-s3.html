@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonga S3 - Data Engineering Portfolio</title>
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <style>
+        /* Custom styles for Bonga S3 page */
+        body {
+            padding-top: 3.5em;
+        }
+
+        .page-wrapper {
+            padding: 4em 0;
+        }
+
+        .project-header {
+            text-align: center;
+            margin-bottom: 3em;
+        }
+
+        .project-header h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+            color: #3e3e3e;
+        }
+
+        .project-header .subtitle {
+            font-size: 1.2em;
+            color: #888;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-nav {
+            margin-bottom: 2em;
+        }
+
+        .back-nav a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5em;
+            color: #43B3E0;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .back-nav a:hover {
+            color: #43bff0;
+        }
+
+        .back-nav a::before {
+            content: '\2190';
+            font-size: 1.2em;
+        }
+
+        .project-content {
+            background: #fff;
+            border-radius: 8px;
+            padding: 2.5em;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2em;
+        }
+
+        .project-image {
+            margin: 2em 0;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .project-description {
+            text-align: justify;
+            line-height: 1.85em;
+            margin-bottom: 1.5em;
+        }
+
+        .feature-box {
+            background-color: #f8f9fa;
+            padding: 1.5em;
+            border-left: 4px solid #43B3E0;
+            border-radius: 4px;
+            margin: 2em 0;
+        }
+
+        .feature-box h4 {
+            color: #3e3e3e;
+            margin-bottom: 1em;
+            font-size: 1.1em;
+        }
+
+        .feature-box p {
+            color: #555;
+            margin-bottom: 0;
+        }
+
+        .feature-box ul {
+            list-style: disc;
+            margin-left: 1.5em;
+            margin-bottom: 0;
+        }
+
+        .feature-box li {
+            margin-bottom: 0.5em;
+            color: #555;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1em;
+            margin-top: 2em;
+            flex-wrap: wrap;
+        }
+
+        .action-buttons .button {
+            margin-bottom: 0;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5em;
+            margin: 2em 0;
+        }
+
+        .tech-tag {
+            background: #f0f0f0;
+            color: #555;
+            padding: 0.3em 0.8em;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .section-divider {
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #ddd, transparent);
+            margin: 2em 0;
+        }
+
+        .highlight-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+            padding: 2em;
+            border-radius: 8px;
+            margin: 2em 0;
+        }
+
+        .highlight-section h3 {
+            color: #3e3e3e;
+            margin-bottom: 1em;
+        }
+
+        @media screen and (max-width: 736px) {
+            .project-content {
+                padding: 1.5em;
+            }
+
+            .project-header h1 {
+                font-size: 1.8em;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body class="is-preload">
+
+    <!-- Navigation -->
+    <nav id="nav">
+        <ul class="container">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#results">Results</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <article id="top" class="wrapper" style="background: #fcfcfc;">
+        <div class="container">
+            <!-- Back Navigation -->
+            <div class="back-nav">
+                <a href="../index.html">Back to Portfolio</a>
+            </div>
+
+            <!-- Project Header -->
+            <header class="project-header">
+                <h1>Bonga CommerceFlow S3</h1>
+                <p class="subtitle">Secure Cloud-Integrated Ecommerce Data Pipeline</p>
+            </header>
+
+            <!-- Project Content -->
+            <div class="project-content" id="overview">
+                <!-- Project Image -->
+                <div class="project-image">
+                    <img src="../images/bongacloud.jpg" alt="Bonga S3 Cloud Integration" />
+                </div>
+
+                <!-- Description -->
+                <div class="project-description">
+                    <p>
+                        Bonga CommerceFlow is a production-ready ecommerce data engineering project that automates the ingestion
+                        of CSV datasets into PostgreSQL using Docker, SQL scripts, Bash automation, and GitHub Actions. The
+                        pipeline was designed to be repeatable, structured, and secure, with clear separation between development
+                        and production-style workflows.
+                    </p>
+                    <p>
+                        A key upgrade in the project is the introduction of Amazon S3 as the source for private production
+                        datasets. Instead of depending only on local files, the pipeline can now fetch protected CSV files from an
+                        S3 bucket before loading them into the database. This makes the workflow more realistic, more secure, and
+                        better aligned with real-world data engineering practices.
+                    </p>
+                </div>
+
+                <!-- Technology Tags -->
+                <div class="tech-tags">
+                    <span class="tech-tag">PostgreSQL</span>
+                    <span class="tech-tag">Docker</span>
+                    <span class="tech-tag">Amazon S3</span>
+                    <span class="tech-tag">Bash</span>
+                    <span class="tech-tag">GitHub Actions</span>
+                    <span class="tech-tag">CI/CD</span>
+                    <span class="tech-tag">ETL</span>
+                    <span class="tech-tag">Cloud Integration</span>
+                </div>
+
+                <hr class="section-divider" />
+
+                <!-- Features Section -->
+                <div id="features">
+                    <div class="feature-box">
+                        <h4><strong>Pipeline Capabilities</strong></h4>
+                        <ul>
+                            <li>Creates the PostgreSQL schema with the right table relationships and constraints.</li>
+                            <li>Loads ecommerce datasets for products, customers, orders, and orderitems.</li>
+                            <li>Validates row counts and referential integrity after every run.</li>
+                            <li>Supports repeatable local execution with Docker and environment-specific profiles.</li>
+                            <li>Automates pipeline execution in GitHub Actions.</li>
+                            <li>Integrates Amazon S3 for secure private-data ingestion in CI/CD and local runs.</li>
+                            <li>Falls back to demo data in `data/raw/` when S3 data is unavailable.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <hr class="section-divider" />
+
+                <!-- Results Section -->
+                <div id="results">
+                    <div class="highlight-section">
+                        <h3>Results & Client Benefits</h3>
+                        <p class="project-description">
+                            The project delivers a reliable and reusable pipeline that successfully loads structured ecommerce data
+                            into PostgreSQL and verifies data quality at each run. It supports secure secret handling, cloud-backed
+                            file ingestion, and a documented workflow that is easy to run, test, and maintain.
+                        </p>
+                        <p class="project-description">
+                            This project gives the client a cleaner and more production-aligned data workflow. It reduces manual data
+                            loading effort, improves consistency across environments, protects sensitive datasets by moving them to
+                            S3, and makes the pipeline easier to operate in both local development and CI/CD. The result is faster
+                            onboarding, safer data handling, and a stronger foundation for reporting, analytics, and future data
+                            platform growth.
+                        </p>
+                    </div>
+                </div>
+
+                <hr class="section-divider" />
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <a href="https://ik.imagekit.io/wiryqrudj/bonga.png" 
+                       target="_blank" 
+                       class="button">
+                        View ERD Diagram
+                    </a>
+                    <a href="https://github.com/esodevops/bonga-ecommerce-s3" 
+                       target="_blank" 
+                       class="button alt">
+                        <span class="icon brands fa-github" style="margin-right: 0.3em;"></span>
+                        View on GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 2em 0; color: #888;">
+        <p style="margin: 0;">&copy; 2024 Data Engineering Portfolio. Built with the Miniport template.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/jquery.scrolly.min.js"></script>
+    <script src="../assets/js/browser.min.js"></script>
+    <script src="../assets/js/breakpoints.min.js"></script>
+    <script src="../assets/js/util.js"></script>
+    <script src="../assets/js/main.js"></script>
+
+</body>
+</html>

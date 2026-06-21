@@ -1,0 +1,550 @@
+<!doctype html>
+<!--
+	Miniport by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+  <head>
+    <title>Sulaimon Ekundayo - Data Engineering Portfolio</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <style>
+      /* Custom styling for portfolio caption */
+      .portfolio-caption {
+        font-size: 1.15em;
+        line-height: 1.8;
+        color: #555;
+        max-width: 100%;
+        text-align: left;
+        padding: 1.5em 2em;
+        background: rgba(255, 255, 255, 0.85);
+        border-left: 4px solid #43b3e0;
+        border-radius: 0 8px 8px 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        margin: 1.5em 0;
+        transition: all 0.3s ease-in-out;
+      }
+
+      .portfolio-caption:hover {
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+        transform: translateX(5px);
+      }
+
+      .portfolio-caption strong {
+        color: #43b3e0;
+        font-weight: 600;
+      }
+
+      @media screen and (max-width: 980px) {
+        .portfolio-caption {
+          max-width: 100%;
+          text-align: center;
+          border-left: none;
+          border-top: 4px solid #43b3e0;
+          border-radius: 0 0 8px 8px;
+          padding: 1.5em;
+        }
+
+        .portfolio-caption:hover {
+          transform: translateY(-3px);
+        }
+      }
+
+      /* Enhanced Work Section Styling */
+      #work .row.aln-center {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: stretch;
+      }
+
+      #work .row.aln-center > div {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .work-card {
+        position: relative;
+        overflow: hidden;
+        border-radius: 12px;
+        transition: all 0.4s ease-in-out;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 2.5em 2em 3em 2em !important;
+        min-height: 480px;
+      }
+
+      .work-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        transition: height 0.3s ease;
+      }
+
+      .work-card.data-engineer::before {
+        background: linear-gradient(90deg, #43b3e0, #2196f3);
+      }
+
+      .work-card.devops-engineer::before {
+        background: linear-gradient(90deg, #ff9800, #ff5722);
+      }
+
+      .work-card.qa-engineer::before {
+        background: linear-gradient(90deg, #4caf50, #8bc34a);
+      }
+
+      .work-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+      }
+
+      .work-card:hover::before {
+        height: 6px;
+      }
+
+			.work-card .icon-wrapper {
+				width: 36px;
+				height: 36px;
+				margin: 0 auto 1.25em;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border-radius: 50%;
+				transition: all 0.3s ease;
+				flex-shrink: 0;
+			}
+
+      .work-card.data-engineer .icon-wrapper {
+        background: linear-gradient(135deg, rgba(67, 179, 224, 0.15), rgba(33, 150, 243, 0.15));
+      }
+
+      .work-card.devops-engineer .icon-wrapper {
+        background: linear-gradient(135deg, rgba(255, 152, 0, 0.15), rgba(255, 87, 34, 0.15));
+      }
+
+      .work-card.qa-engineer .icon-wrapper {
+        background: linear-gradient(135deg, rgba(76, 175, 80, 0.15), rgba(139, 195, 74, 0.15));
+      }
+
+      .work-card:hover .icon-wrapper {
+        transform: scale(1.1) rotate(5deg);
+      }
+
+			.work-card .featured {
+				font-size: 0.85em;
+				transition: all 0.3s ease;
+				line-height: 1;
+			}
+
+      .work-card.data-engineer .featured {
+        color: #43b3e0;
+      }
+
+      .work-card.devops-engineer .featured {
+        color: #ff9800;
+      }
+
+      .work-card.qa-engineer .featured {
+        color: #4caf50;
+      }
+
+      .work-card h3 {
+        font-size: 1.4em;
+        font-weight: 700;
+        margin-bottom: 0.75em;
+        transition: color 0.3s ease;
+        flex-shrink: 0;
+      }
+
+      .work-card.data-engineer h3 {
+        color: #1565c0;
+      }
+
+      .work-card.devops-engineer h3 {
+        color: #e65100;
+      }
+
+      .work-card.qa-engineer h3 {
+        color: #2e7d32;
+      }
+
+      .work-card > p {
+        flex-shrink: 0;
+        margin-bottom: 1em;
+      }
+
+      .work-card .skills-list {
+        list-style: none;
+        padding: 0;
+        margin: auto 0 0 0;
+        text-align: left;
+        width: 100%;
+        max-width: 280px;
+      }
+
+      .work-card .skills-list li {
+        padding: 0.35em 0;
+        font-size: 0.85em;
+        color: #666;
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        line-height: 1.4;
+      }
+
+      .work-card .skills-list li::before {
+        content: '▸';
+        font-weight: bold;
+        flex-shrink: 0;
+      }
+
+      .work-card.data-engineer .skills-list li::before {
+        color: #43b3e0;
+      }
+
+      .work-card.devops-engineer .skills-list li::before {
+        color: #ff9800;
+      }
+
+      .work-card.qa-engineer .skills-list li::before {
+        color: #4caf50;
+      }
+
+      /* Pulse animation for icons */
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+
+      .work-card:hover .featured {
+        animation: pulse 1s ease-in-out infinite;
+      }
+
+      @media screen and (max-width: 980px) {
+        .work-card {
+          min-height: auto;
+          max-width: 32em;
+          margin: 0 auto;
+        }
+      }
+
+      /* Portfolio Cards Styling */
+      #portfolio .row {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      #portfolio .box.style2 {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        min-height: 420px;
+      }
+
+      #portfolio .box.style2 .image.featured {
+        flex-shrink: 0;
+        height: 200px;
+        overflow: hidden;
+      }
+
+      #portfolio .box.style2 .image.featured img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      #portfolio .box.style2 h3 {
+        flex-shrink: 0;
+        min-height: 3em;
+        display: flex;
+        align-items: center;
+      }
+
+      #portfolio .box.style2 h3 a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      #portfolio .box.style2 > p {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        min-height: 4em;
+      }
+
+      #portfolio .box.style2 .button {
+        flex-shrink: 0;
+        align-self: flex-start;
+      }
+    </style>
+  </head>
+  <body class="is-preload">
+    <!-- Nav -->
+    <nav id="nav">
+      <ul class="container">
+        <li><a href="#top">Top</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- Home -->
+    <article id="top" class="wrapper style1">
+      <div class="container">
+        <div class="row">
+          <div class="col-4 col-5-large col-12-medium">
+            <span class="image fit"><img src="images/pix.png" alt="" /></span>
+          </div>
+          <div class="col-8 col-7-large col-12-medium">
+            <header>
+              <h1>Hi. I'm <strong>Sulaimon Ekundayo</strong>.</h1>
+            </header>
+            <p class="portfolio-caption">
+              This portfolio presents my <strong>data engineering projects</strong>, demonstrating my ability to design
+              scalable data pipelines, manage data infrastructure, and deliver <strong>data-driven solutions</strong>.
+            </p>
+            <a href="#work" class="button large scrolly">Learn about what I do</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Work -->
+    <article id="work" class="wrapper style2">
+      <div class="container">
+        <header>
+          <h2>Here's all the stuff I do.</h2>
+          <p>Transforming data into actionable insights and building robust systems that power modern businesses.</p>
+        </header>
+        <div class="row aln-center">
+          <div class="col-4 col-6-medium col-12-small">
+							<section class="box style1 work-card data-engineer">
+								<div class="icon-wrapper">
+									<span class="icon solid featured fa-server"></span>
+								</div>
+              <h3>Data Engineer</h3>
+              <p>
+                Designing and building scalable data pipelines that transform raw data into valuable business
+                intelligence.
+              </p>
+              <ul class="skills-list">
+                <li>ETL/ELT Pipeline Development</li>
+                <li>Data Warehouse Architecture</li>
+                <li>Big Data Processing (Spark, Hadoop)</li>
+                <li>SQL & NoSQL Databases</li>
+                <li>Data Modeling & Optimization</li>
+              </ul>
+            </section>
+          </div>
+          <div class="col-4 col-6-medium col-12-small">
+            <section class="box style1 work-card devops-engineer">
+              <div class="icon-wrapper">
+                <span class="icon solid featured fa-infinity"></span>
+              </div>
+              <h3>DevOps Engineer</h3>
+              <p>
+                Automating infrastructure and deployment processes to ensure reliable, scalable, and efficient systems.
+              </p>
+              <ul class="skills-list">
+                <li>CI/CD Pipeline Automation</li>
+                <li>Container Orchestration (Docker, Kubernetes)</li>
+                <li>Infrastructure as Code (Terraform)</li>
+                <li>Cloud Platforms (AWS, Azure, GCP)</li>
+                <li>Monitoring & Observability</li>
+              </ul>
+            </section>
+          </div>
+          <div class="col-4 col-6-medium col-12-small">
+            <section class="box style1 work-card qa-engineer">
+              <div class="icon-wrapper">
+                <span class="icon featured fa-check-circle"></span>
+              </div>
+              <h3>Software QA Engineer</h3>
+              <p>Ensuring software quality through comprehensive testing strategies and automated test frameworks.</p>
+              <ul class="skills-list">
+                <li>Test Automation Frameworks</li>
+                <li>API & Integration Testing</li>
+                <li>Performance & Load Testing</li>
+                <li>Test-Driven Development (TDD)</li>
+                <li>Quality Assurance Processes</li>
+              </ul>
+            </section>
+          </div>
+        </div>
+        <footer>
+          <p>Ready to bring your data vision to life? Let's collaborate and build something amazing together.</p>
+          <a href="#portfolio" class="button large scrolly">See some of my recent work</a>
+        </footer>
+      </div>
+    </article>
+
+    <!-- Portfolio -->
+    <article id="portfolio" class="wrapper style3">
+      <div class="container">
+        <header>
+          <h2>Here's some stuff I made recently.</h2>
+          <p>Explore my data engineering projects featuring production-ready databases, ETL pipelines, and analytics solutions built with PostgreSQL, Docker, and modern cloud technologies.</p>
+        </header>
+        <div class="row">
+          <div class="col-4 col-6-medium col-12-small">
+            <article class="box style2">
+              <a href="#" class="image featured"><img src="images/bonga.jpg" alt="" /></a>
+              <h3><a href="#">Bonga CommerceFlow</a></h3>
+              <p>Production-ready ecommerce data pipeline with PostgreSQL, Docker, and GitHub Actions CI/CD automation.</p>
+              <a href="pages/bonga.html" class="button small">Learn more</a>
+            </article>
+          </div>
+
+          <div class="col-4 col-6-medium col-12-small">
+            <article class="box style2">
+              <a href="#" class="image featured"><img src="images/metrobank.jpg" alt="" /></a>
+              <h3><a href="#">MetroBank Case Study</a></h3>
+              <p>Production-grade PostgreSQL banking database with schema design, data security, and automated audit trails.</p>
+              <a href="pages/metrobank.html" class="button small">Learn more</a>
+            </article>
+          </div>
+          <div class="col-4 col-6-medium col-12-small">
+            <article class="box style2">
+              <a href="#" class="image featured"><img src="images/swiftride.jpg" alt="" /></a>
+              <h3><a href="#">SwiftRide Logistics</a></h3>
+              <p>Production-ready PostgreSQL data platform for logistics operations with end-to-end referential integrity.</p>
+              <a href="pages/swiftride.html" class="button small">Learn more</a>
+            </article>
+          </div>
+          <div class="col-4 col-6-medium col-12-small">
+            <article class="box style2">
+              <a href="#" class="image featured"><img src="images/bongacloud.jpg" alt="" /></a>
+              <h3><a href="#">Bonga E-commerce S3</a></h3>
+              <p>Secure cloud-integrated data pipeline with Amazon S3 for production data ingestion and CI/CD automation.</p>
+              <a href="pages/bonga-s3.html" class="button small">Learn more</a>
+            </article>
+          </div>
+          <div class="col-4 col-6-medium col-12-small">
+            <article class="box style2">
+              <a href="#" class="image featured"><img src="images/pic05.jpg" alt="" /></a>
+              <h3><a href="#">Feugiat aliquam</a></h3>
+              <p>Ornare nulla proin odio consequat.</p>
+              <a href="#" class="button small">Learn more</a>
+            </article>
+          </div>
+          <div class="col-4 col-6-medium col-12-small">
+            <article class="box style2">
+              <a href="#" class="image featured"><img src="images/pic06.jpg" alt="" /></a>
+              <h3><a href="#">Sed amet ornare</a></h3>
+              <p>Ornare nulla proin odio consequat.</p>
+              <a href="#" class="button small">Learn more</a>
+            </article>
+          </div>
+        </div>
+        <footer>
+          <p>Lorem ipsum dolor sit sapien vestibulum ipsum primis?</p>
+          <a href="#contact" class="button large scrolly">Get in touch with me</a>
+        </footer>
+      </div>
+    </article>
+
+    <!-- Contact -->
+    <article id="contact" class="wrapper style4">
+      <div class="container medium">
+        <header>
+          <h2>Have me make stuff for you.</h2>
+          <p>Ornare nulla proin odio consequat sapien vestibulum ipsum.</p>
+        </header>
+        <div class="row">
+          <div class="col-12">
+            <form method="post" action="#">
+              <div class="row">
+                <div class="col-6 col-12-small">
+                  <input type="text" name="name" id="name" placeholder="Name" />
+                </div>
+                <div class="col-6 col-12-small">
+                  <input type="text" name="email" id="email" placeholder="Email" />
+                </div>
+                <div class="col-12">
+                  <input type="text" name="subject" id="subject" placeholder="Subject" />
+                </div>
+                <div class="col-12">
+                  <textarea name="message" id="message" placeholder="Message"></textarea>
+                </div>
+                <div class="col-12">
+                  <ul class="actions">
+                    <li><input type="submit" value="Send Message" /></li>
+                    <li><input type="reset" value="Clear Form" class="alt" /></li>
+                  </ul>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-12">
+            <hr />
+            <h3>Find me on ...</h3>
+            <ul class="social">
+              <li>
+                <a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a>
+              </li>
+              <li>
+                <a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a>
+              </li>
+              <li>
+                <a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a>
+              </li>
+              <li>
+                <a href="#" class="icon brands fa-linkedin-in"><span class="label">LinkedIn</span></a>
+              </li>
+              <li>
+                <a href="#" class="icon brands fa-tumblr"><span class="label">Tumblr</span></a>
+              </li>
+              <li>
+                <a href="#" class="icon brands fa-google-plus"><span class="label">Google+</span></a>
+              </li>
+              <li>
+                <a href="#" class="icon brands fa-github"><span class="label">Github</span></a>
+              </li>
+              <!--
+								<li><a href="#" class="icon solid fa-rss"><span>RSS</span></a></li>
+								<li><a href="#" class="icon brands fa-instagram"><span>Instagram</span></a></li>
+								<li><a href="#" class="icon brands fa-foursquare"><span>Foursquare</span></a></li>
+								<li><a href="#" class="icon brands fa-skype"><span>Skype</span></a></li>
+								<li><a href="#" class="icon brands fa-soundcloud"><span>Soundcloud</span></a></li>
+								<li><a href="#" class="icon brands fa-youtube"><span>YouTube</span></a></li>
+								<li><a href="#" class="icon brands fa-blogger"><span>Blogger</span></a></li>
+								<li><a href="#" class="icon brands fa-flickr"><span>Flickr</span></a></li>
+								<li><a href="#" class="icon brands fa-vimeo"><span>Vimeo</span></a></li>
+								-->
+            </ul>
+            <hr />
+          </div>
+        </div>
+        <footer>
+          <ul id="copyright">
+            <li>&copy; Untitled. All rights reserved.</li>
+            <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+          </ul>
+        </footer>
+      </div>
+    </article>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
