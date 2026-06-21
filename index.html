@@ -111,17 +111,17 @@
         height: 6px;
       }
 
-			.work-card .icon-wrapper {
-				width: 36px;
-				height: 36px;
-				margin: 0 auto 1.25em;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				border-radius: 50%;
-				transition: all 0.3s ease;
-				flex-shrink: 0;
-			}
+      .work-card .icon-wrapper {
+        width: 36px;
+        height: 36px;
+        margin: 0 auto 1.25em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        flex-shrink: 0;
+      }
 
       .work-card.data-engineer .icon-wrapper {
         background: linear-gradient(135deg, rgba(67, 179, 224, 0.15), rgba(33, 150, 243, 0.15));
@@ -139,11 +139,11 @@
         transform: scale(1.1) rotate(5deg);
       }
 
-			.work-card .featured {
-				font-size: 0.85em;
-				transition: all 0.3s ease;
-				line-height: 1;
-			}
+      .work-card .featured {
+        font-size: 0.85em;
+        transition: all 0.3s ease;
+        line-height: 1;
+      }
 
       .work-card.data-engineer .featured {
         color: #43b3e0;
@@ -333,10 +333,10 @@
         </header>
         <div class="row aln-center">
           <div class="col-4 col-6-medium col-12-small">
-							<section class="box style1 work-card data-engineer">
-								<div class="icon-wrapper">
-									<span class="icon solid featured fa-server"></span>
-								</div>
+            <section class="box style1 work-card data-engineer">
+              <div class="icon-wrapper">
+                <span class="icon solid featured fa-server"></span>
+              </div>
               <h3>Data Engineer</h3>
               <p>
                 Designing and building scalable data pipelines that transform raw data into valuable business
@@ -398,14 +398,19 @@
       <div class="container">
         <header>
           <h2>Here's some stuff I made recently.</h2>
-          <p>Explore my data engineering projects featuring production-ready databases, ETL pipelines, and analytics solutions built with PostgreSQL, Docker, and modern cloud technologies.</p>
+          <p>
+            Explore my data engineering projects featuring production-ready databases, ETL pipelines, and analytics
+            solutions built with PostgreSQL, Docker, and modern cloud technologies.
+          </p>
         </header>
         <div class="row">
           <div class="col-4 col-6-medium col-12-small">
             <article class="box style2">
               <a href="#" class="image featured"><img src="images/bonga.jpg" alt="" /></a>
               <h3><a href="#">Bonga CommerceFlow</a></h3>
-              <p>Production-ready ecommerce data pipeline with PostgreSQL, Docker, and GitHub Actions CI/CD automation.</p>
+              <p>
+                Production-ready ecommerce data pipeline with PostgreSQL, Docker, and GitHub Actions CI/CD automation.
+              </p>
               <a href="pages/bonga.html" class="button small">Learn more</a>
             </article>
           </div>
@@ -414,7 +419,10 @@
             <article class="box style2">
               <a href="#" class="image featured"><img src="images/metrobank.jpg" alt="" /></a>
               <h3><a href="#">MetroBank Case Study</a></h3>
-              <p>Production-grade PostgreSQL banking database with schema design, data security, and automated audit trails.</p>
+              <p>
+                Production-grade PostgreSQL banking database with schema design, data security, and automated audit
+                trails.
+              </p>
               <a href="pages/metrobank.html" class="button small">Learn more</a>
             </article>
           </div>
@@ -422,7 +430,10 @@
             <article class="box style2">
               <a href="#" class="image featured"><img src="images/swiftride.jpg" alt="" /></a>
               <h3><a href="#">SwiftRide Logistics</a></h3>
-              <p>Production-ready PostgreSQL data platform for logistics operations with end-to-end referential integrity.</p>
+              <p>
+                Production-ready PostgreSQL data platform for logistics operations with end-to-end referential
+                integrity.
+              </p>
               <a href="pages/swiftride.html" class="button small">Learn more</a>
             </article>
           </div>
@@ -430,7 +441,9 @@
             <article class="box style2">
               <a href="#" class="image featured"><img src="images/bongacloud.jpg" alt="" /></a>
               <h3><a href="#">Bonga E-commerce S3</a></h3>
-              <p>Secure cloud-integrated data pipeline with Amazon S3 for production data ingestion and CI/CD automation.</p>
+              <p>
+                Secure cloud-integrated data pipeline with Amazon S3 for production data ingestion and CI/CD automation.
+              </p>
               <a href="pages/bonga-s3.html" class="button small">Learn more</a>
             </article>
           </div>
@@ -451,6 +464,13 @@
             </article>
           </div>
         </div>
+
+        <!-- Pagination -->
+        <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: 1em; margin-top: 2em;">
+          <a href="#" class="active" style="display: inline-block; padding: 0.6em 1.2em; border-radius: 6px; text-decoration: none; font-weight: 600; background: #43B3E0; color: #fff;">1</a>
+          <a href="pages/portfolio-2.html" style="display: inline-block; padding: 0.6em 1.2em; border-radius: 6px; text-decoration: none; font-weight: 600; transition: all 0.2s ease-in-out;">2</a>
+        </div>
+
         <footer>
           <p>Lorem ipsum dolor sit sapien vestibulum ipsum primis?</p>
           <a href="#contact" class="button large scrolly">Get in touch with me</a>
