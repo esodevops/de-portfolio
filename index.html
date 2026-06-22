@@ -10,48 +10,240 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="assets/css/main.css" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/portfolio.svg" />
     <style>
-      /* Custom styling for portfolio caption */
-      .portfolio-caption {
-        font-size: 1.15em;
-        line-height: 1.8;
-        color: #555;
-        max-width: 100%;
-        text-align: left;
-        padding: 1.5em 2em;
-        background: rgba(255, 255, 255, 0.85);
-        border-left: 4px solid #43b3e0;
-        border-radius: 0 8px 8px 0;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-        margin: 1.5em 0;
-        transition: all 0.3s ease-in-out;
+      /* Enhanced Hero Section Styling */
+      #top .container {
+        position: relative;
       }
 
-      .portfolio-caption:hover {
-        background: rgba(255, 255, 255, 0.95);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
-        transform: translateX(5px);
+      #top .row {
+        position: relative;
       }
 
-      .portfolio-caption strong {
-        color: #43b3e0;
-        font-weight: 600;
+      #top h1 {
+        font-size: 3.5em;
+        font-family: 'Lobster', cursive;
+        font-weight: 400;
+        margin-bottom: 0.5em;
+        color: #ffffff;
+        animation: fadeInUp 1s ease-out;
+        line-height: 1.3;
+        letter-spacing: 0.02em;
+        text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        position: relative;
+        z-index: 2;
+      }
+
+      #top h1 strong {
+        font-weight: 700;
+        color: #ffffff;
+        position: relative;
+        text-shadow:
+          0 0 30px rgba(67, 179, 224, 0.8),
+          0 0 60px rgba(67, 179, 224, 0.4);
+        display: inline-block;
+      }
+
+      #top h1 strong::before {
+        content: 'Sulaimon Ekundayo';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        color: transparent;
+        -webkit-text-stroke: 2px rgba(67, 179, 224, 0.5);
+        filter: blur(8px);
+        z-index: -1;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      #top .col-8 {
+        position: relative;
+      }
+
+      #top .col-8::before {
+        content: '';
+        position: absolute;
+        top: -30px;
+        left: -30px;
+        right: -30px;
+        bottom: -30px;
+        background: linear-gradient(
+          135deg,
+          rgba(67, 179, 224, 0.15) 0%,
+          rgba(33, 150, 243, 0.1) 50%,
+          rgba(67, 179, 224, 0.15) 100%
+        );
+        border-radius: 20px;
+        z-index: 0;
+        animation: gradientShift 4s ease-in-out infinite;
+        background-size: 200% 200%;
+      }
+
+      #top .col-8::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: -60px;
+        transform: translateY(-50%);
+        width: 120px;
+        height: 120px;
+        border: 2px solid rgba(67, 179, 224, 0.3);
+        border-radius: 50%;
+        z-index: 1;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      @keyframes gradientShift {
+        0%,
+        100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(-50%) scale(1);
+        }
+        50% {
+          transform: translateY(-50%) scale(1.1);
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0.5;
+        }
+        50% {
+          opacity: 1;
+        }
       }
 
       @media screen and (max-width: 980px) {
-        .portfolio-caption {
+        #top h1 {
+          font-size: 2.5em;
+        }
+
+        #top .col-8::before,
+        #top .col-8::after {
+          display: none;
+        }
+      }
+
+      .hero-intro {
+        font-size: 1.3em;
+        font-family: 'Space Grotesk', sans-serif;
+        font-weight: 500;
+        line-height: 1.9;
+        color: #2c3e50;
+        max-width: 100%;
+        text-align: left;
+        padding: 2em 2.5em;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 248, 255, 0.9) 100%);
+        border-left: 5px solid #43b3e0;
+        border-radius: 0 12px 12px 0;
+        box-shadow:
+          0 8px 32px rgba(67, 179, 224, 0.15),
+          0 2px 8px rgba(0, 0, 0, 0.08);
+        margin: 2em 0;
+        transition: all 0.4s ease-in-out;
+        animation: fadeInUp 1s ease-out 0.3s both;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-intro::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #43b3e0, #2196f3, #43b3e0);
+        background-size: 200% 100%;
+        animation: shimmer 3s linear infinite;
+      }
+
+      .hero-intro:hover {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(240, 248, 255, 1) 100%);
+        box-shadow:
+          0 12px 40px rgba(67, 179, 224, 0.25),
+          0 4px 12px rgba(0, 0, 0, 0.12);
+        transform: translateX(8px) scale(1.01);
+      }
+
+      .hero-intro strong {
+        color: #43b3e0;
+        font-weight: 700;
+        position: relative;
+      }
+
+      .hero-intro strong::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #43b3e0, transparent);
+      }
+
+      .hero-cta {
+        animation: fadeInUp 1s ease-out 0.6s both;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: -200% 0;
+        }
+        100% {
+          background-position: 200% 0;
+        }
+      }
+
+      @media screen and (max-width: 980px) {
+        #top h1 {
+          font-size: 2.5em;
+        }
+
+        .hero-intro {
           max-width: 100%;
           text-align: center;
           border-left: none;
-          border-top: 4px solid #43b3e0;
-          border-radius: 0 0 8px 8px;
-          padding: 1.5em;
+          border-top: 5px solid #43b3e0;
+          border-radius: 0 0 12px 12px;
+          padding: 2em;
         }
 
-        .portfolio-caption:hover {
-          transform: translateY(-3px);
+        .hero-intro:hover {
+          transform: translateY(-5px) scale(1.01);
+        }
+
+        .hero-intro strong::after {
+          display: none;
         }
       }
 
@@ -78,8 +270,9 @@
         flex-direction: column;
         align-items: center;
         text-align: center;
-        padding: 2.5em 2em 3em 2em !important;
+        padding: 3em 3.5em 3.5em 3.5em !important;
         min-height: 480px;
+        max-width: 100%;
       }
 
       .work-card::before {
@@ -160,8 +353,9 @@
       }
 
       .work-card h3 {
-        font-size: 1.4em;
-        font-weight: 700;
+        font-size: 1.5em;
+        font-family: 'Lobster', cursive;
+        font-weight: 400;
         margin-bottom: 0.75em;
         transition: color 0.3s ease;
         flex-shrink: 0;
@@ -316,11 +510,16 @@
             <header>
               <h1>Hi. I'm <strong>Sulaimon Ekundayo</strong>.</h1>
             </header>
-            <p class="portfolio-caption">
-              This portfolio presents my <strong>data engineering projects</strong>, demonstrating my ability to design
-              scalable data pipelines, manage data infrastructure, and deliver <strong>data-driven solutions</strong>.
+            <p class="hero-intro">
+              Welcome to my data engineering portfolio. I specialize in building <strong>robust data pipelines</strong>,
+              designing <strong>scalable architectures</strong>, and transforming raw data into
+              <strong>actionable insights</strong>
+              that drive business decisions. Explore my projects to see how I turn complex data challenges into elegant,
+              production-ready solutions using modern tools like PostgreSQL, Docker, and cloud technologies.
             </p>
-            <a href="#work" class="button large scrolly">Learn about what I do</a>
+            <div class="hero-cta">
+              <a href="#work" class="button large scrolly">Learn about what I do</a>
+            </div>
           </div>
         </div>
       </div>
@@ -468,9 +667,36 @@
         </div>
 
         <!-- Pagination -->
-        <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: 1em; margin-top: 2em;">
-          <a href="#" class="active" style="display: inline-block; padding: 0.6em 1.2em; border-radius: 6px; text-decoration: none; font-weight: 600; background: #43B3E0; color: #fff;">1</a>
-          <a href="pages/portfolio-2.html" style="display: inline-block; padding: 0.6em 1.2em; border-radius: 6px; text-decoration: none; font-weight: 600; transition: all 0.2s ease-in-out;">2</a>
+        <div
+          class="pagination"
+          style="display: flex; justify-content: center; align-items: center; gap: 1em; margin-top: 2em"
+        >
+          <a
+            href="#"
+            class="active"
+            style="
+              display: inline-block;
+              padding: 0.6em 1.2em;
+              border-radius: 6px;
+              text-decoration: none;
+              font-weight: 600;
+              background: #43b3e0;
+              color: #fff;
+            "
+            >1</a
+          >
+          <a
+            href="pages/portfolio-2.html"
+            style="
+              display: inline-block;
+              padding: 0.6em 1.2em;
+              border-radius: 6px;
+              text-decoration: none;
+              font-weight: 600;
+              transition: all 0.2s ease-in-out;
+            "
+            >2</a
+          >
         </div>
 
         <footer>
@@ -485,7 +711,10 @@
       <div class="container medium">
         <header>
           <h2>Let's Work Together</h2>
-          <p>Have a project in mind? I'd love to hear about it. Send me a message and let's discuss how we can turn your data challenges into opportunities.</p>
+          <p>
+            Have a project in mind? I'd love to hear about it. Send me a message and let's discuss how we can turn your
+            data challenges into opportunities.
+          </p>
         </header>
         <div class="row">
           <div class="col-12">
@@ -523,13 +752,20 @@
                 <a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a>
               </li> -->
               <li>
-                <a href="https://www.linkedin.com/in/sulaimon-ekundayo/" class="icon brands fa-linkedin-in" target="_blank"><span class="label">LinkedIn</span></a>
+                <a
+                  href="https://www.linkedin.com/in/sulaimon-ekundayo/"
+                  class="icon brands fa-linkedin-in"
+                  target="_blank"
+                  ><span class="label">LinkedIn</span></a
+                >
               </li>
               <!-- <li>
                 <a href="#" class="icon brands fa-google-plus"><span class="label">Google+</span></a>
               </li> -->
               <li>
-                <a href="https://github.com/esodevops" class="icon brands fa-github" target="_blank"><span class="label">Github</span></a>
+                <a href="https://github.com/esodevops" class="icon brands fa-github" target="_blank"
+                  ><span class="label">Github</span></a
+                >
               </li>
               <!--
 								<li><a href="#" class="icon solid fa-rss"><span>RSS</span></a></li>
