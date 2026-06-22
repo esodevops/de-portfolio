@@ -1,177 +1,264 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portfolio Page 2 - Data Engineering Portfolio</title>
     <link rel="stylesheet" href="../assets/css/main.css" />
     <style>
-        /* Portfolio Cards Styling */
-        #portfolio .row {
-            display: flex;
-            flex-wrap: wrap;
-        }
+      /* Portfolio Cards Styling */
+      #portfolio .row {
+        display: flex;
+        flex-wrap: wrap;
+      }
 
+      #portfolio .box.style2 {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        min-height: 420px;
+      }
+
+      #portfolio .box.style2 .image.featured {
+        flex-shrink: 0;
+        height: 200px;
+        overflow: hidden;
+      }
+
+      #portfolio .box.style2 .image.featured img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      #portfolio .box.style2 h3 {
+        flex-shrink: 0;
+        min-height: 3em;
+        display: flex;
+        align-items: center;
+      }
+
+      #portfolio .box.style2 h3 a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      #portfolio .box.style2 > p {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        min-height: 4em;
+      }
+
+      #portfolio .box.style2 .button {
+        flex-shrink: 0;
+        align-self: flex-start;
+      }
+
+      /* Pagination Styling */
+      .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1em;
+        margin-top: 2em;
+      }
+
+      .pagination a {
+        display: inline-block;
+        padding: 0.6em 1.2em;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.2s ease-in-out;
+      }
+
+      .pagination a.active {
+        background: #43b3e0;
+        color: #fff;
+      }
+
+      .pagination a:not(.active):hover {
+        background: #f0f0f0;
+        color: #333;
+      }
+
+      @media screen and (max-width: 736px) {
         #portfolio .box.style2 {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            min-height: 420px;
+          min-height: auto;
         }
-
-        #portfolio .box.style2 .image.featured {
-            flex-shrink: 0;
-            height: 200px;
-            overflow: hidden;
-        }
-
-        #portfolio .box.style2 .image.featured img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        #portfolio .box.style2 h3 {
-            flex-shrink: 0;
-            min-height: 3em;
-            display: flex;
-            align-items: center;
-        }
-
-        #portfolio .box.style2 h3 a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        #portfolio .box.style2 > p {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            min-height: 4em;
-        }
-
-        #portfolio .box.style2 .button {
-            flex-shrink: 0;
-            align-self: flex-start;
-        }
-
-        /* Pagination Styling */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1em;
-            margin-top: 2em;
-        }
-
-        .pagination a {
-            display: inline-block;
-            padding: 0.6em 1.2em;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.2s ease-in-out;
-        }
-
-        .pagination a.active {
-            background: #43B3E0;
-            color: #fff;
-        }
-
-        .pagination a:not(.active):hover {
-            background: #f0f0f0;
-            color: #333;
-        }
-
-        @media screen and (max-width: 736px) {
-            #portfolio .box.style2 {
-                min-height: auto;
-            }
-        }
+      }
     </style>
-</head>
-<body class="is-preload">
-
+  </head>
+  <body class="is-preload">
     <!-- Navigation -->
     <nav id="nav">
-        <ul class="container">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="index.html#work">Work</a></li>
-            <li><a href="#portfolio">Portfolio</a></li>
-            <li><a href="index.html#contact">Contact</a></li>
-        </ul>
+      <ul class="container">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../index.html#work">Work</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
     </nav>
 
     <!-- Portfolio -->
     <article id="portfolio" class="wrapper style3">
-        <div class="container">
-            <header>
-                <h2>More Projects</h2>
-                <p>Additional data engineering projects showcasing diverse technical solutions and implementations.</p>
-            </header>
-            <div class="row">
-                <div class="col-4 col-6-medium col-12-small">
-                    <article class="box style2">
-                        <a href="#" class="image featured"><img src="../images/pic00.jpg" alt="" /></a>
-                        <h3><a href="#">Data Lake Architecture</a></h3>
-                        <p>Scalable data lake implementation with AWS S3, Glue, and Athena for petabyte-scale analytics.</p>
-                        <a href="#" class="button small">Learn more</a>
-                    </article>
-                </div>
-                <div class="col-4 col-6-medium col-12-small">
-                    <article class="box style2">
-                        <a href="#" class="image featured"><img src="../images/pic01.jpg" alt="" /></a>
-                        <h3><a href="#">Real-time Streaming</a></h3>
-                        <p>Kafka-based real-time data streaming pipeline with Spark Structured Streaming for event processing.</p>
-                        <a href="#" class="button small">Learn more</a>
-                    </article>
-                </div>
-                <div class="col-4 col-6-medium col-12-small">
-                    <article class="box style2">
-                        <a href="#" class="image featured"><img src="../images/pic02.jpg" alt="" /></a>
-                        <h3><a href="#">ML Feature Store</a></h3>
-                        <p>Centralized feature store for ML models with Feast, enabling consistent feature engineering at scale.</p>
-                        <a href="#" class="button small">Learn more</a>
-                    </article>
-                </div>
-                <div class="col-4 col-6-medium col-12-small">
-                    <article class="box style2">
-                        <a href="#" class="image featured"><img src="../images/pic03.jpg" alt="" /></a>
-                        <h3><a href="#">Data Quality Framework</a></h3>
-                        <p>Automated data quality monitoring with Great Expectations and dbt tests for production pipelines.</p>
-                        <a href="#" class="button small">Learn more</a>
-                    </article>
-                </div>
-                <div class="col-4 col-6-medium col-12-small">
-                    <article class="box style2">
-                        <a href="#" class="image featured"><img src="../images/pic04.jpg" alt="" /></a>
-                        <h3><a href="#">Airflow Orchestration</a></h3>
-                        <p>Complex DAG orchestration with Apache Airflow for multi-source ETL workflows and dependencies.</p>
-                        <a href="#" class="button small">Learn more</a>
-                    </article>
-                </div>
-                <div class="col-4 col-6-medium col-12-small">
-                    <article class="box style2">
-                        <a href="#" class="image featured"><img src="../images/pic05.jpg" alt="" /></a>
-                        <h3><a href="#">Snowflake Migration</a></h3>
-                        <p>Legacy data warehouse migration to Snowflake with zero-downtime cutover and performance optimization.</p>
-                        <a href="#" class="button small">Learn more</a>
-                    </article>
-                </div>
-            </div>
-
-            <!-- Pagination -->
-            <div class="pagination">
-                <a href="../index.html#portfolio" onclick="window.location.href='../index.html#portfolio'; return false;">1</a>
-                <a href="#" class="active">2</a>
-            </div>
+      <div class="container">
+        <header>
+          <h2>More Projects</h2>
+          <p>Additional data engineering projects showcasing diverse technical solutions and implementations.</p>
+        </header>
+        <div class="row">
+          <div class="col-4 col-6-medium col-12-small">
+            <article class="box style2">
+              <a href="#" class="image featured"><img src="../images/pic00.jpg" alt="" /></a>
+              <h3><a href="#">Data Lake Architecture</a></h3>
+              <p>Scalable data lake implementation with AWS S3, Glue, and Athena for petabyte-scale analytics.</p>
+              <a href="#" class="button small">Learn more</a>
+            </article>
+          </div>
+          <div class="col-4 col-6-medium col-12-small">
+            <article class="box style2">
+              <a href="#" class="image featured"><img src="../images/pic01.jpg" alt="" /></a>
+              <h3><a href="#">Real-time Streaming</a></h3>
+              <p>Kafka-based real-time data streaming pipeline with Spark Structured Streaming for event processing.</p>
+              <a href="#" class="button small">Learn more</a>
+            </article>
+          </div>
+          <div class="col-4 col-6-medium col-12-small">
+            <article class="box style2">
+              <a href="#" class="image featured"><img src="../images/pic02.jpg" alt="" /></a>
+              <h3><a href="#">ML Feature Store</a></h3>
+              <p>
+                Centralized feature store for ML models with Feast, enabling consistent feature engineering at scale.
+              </p>
+              <a href="#" class="button small">Learn more</a>
+            </article>
+          </div>
+          <div class="col-4 col-6-medium col-12-small">
+            <article class="box style2">
+              <a href="#" class="image featured"><img src="../images/pic03.jpg" alt="" /></a>
+              <h3><a href="#">Data Quality Framework</a></h3>
+              <p>Automated data quality monitoring with Great Expectations and dbt tests for production pipelines.</p>
+              <a href="#" class="button small">Learn more</a>
+            </article>
+          </div>
+          <div class="col-4 col-6-medium col-12-small">
+            <article class="box style2">
+              <a href="#" class="image featured"><img src="../images/pic04.jpg" alt="" /></a>
+              <h3><a href="#">Airflow Orchestration</a></h3>
+              <p>Complex DAG orchestration with Apache Airflow for multi-source ETL workflows and dependencies.</p>
+              <a href="#" class="button small">Learn more</a>
+            </article>
+          </div>
+          <div class="col-4 col-6-medium col-12-small">
+            <article class="box style2">
+              <a href="#" class="image featured"><img src="../images/pic05.jpg" alt="" /></a>
+              <h3><a href="#">Snowflake Migration</a></h3>
+              <p>
+                Legacy data warehouse migration to Snowflake with zero-downtime cutover and performance optimization.
+              </p>
+              <a href="#" class="button small">Learn more</a>
+            </article>
+          </div>
         </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+          <a
+            href="../index.html#portfolio"
+            onclick="
+              window.location.href = '../index.html#portfolio';
+              return false;
+            "
+            >1</a
+          >
+          <a href="#" class="active">2</a>
+        </div>
+      </div>
     </article>
 
-    <!-- Footer -->
-    <footer style="text-align: center; padding: 2em 0; color: #888;">
-        <p style="margin: 0;">&copy; 2024 Data Engineering Portfolio. Built with the Miniport template.</p>
-    </footer>
+    <!-- Contact -->
+    <article id="contact" class="wrapper style4">
+      <div class="container medium">
+        <header>
+          <h2>Have me make stuff for you.</h2>
+          <p>Ornare nulla proin odio consequat sapien vestibulum ipsum.</p>
+        </header>
+        <div class="row">
+          <div class="col-12">
+            <form method="post" action="https://formspree.io/f/mzdlpnbb">
+              <div class="row">
+                <div class="col-6 col-12-small">
+                  <input type="text" name="name" id="name" placeholder="Name" />
+                </div>
+                <div class="col-6 col-12-small">
+                  <input type="email" name="email" id="email" placeholder="Email" />
+                </div>
+                <div class="col-12">
+                  <input type="text" name="subject" id="subject" placeholder="Subject" />
+                </div>
+                <div class="col-12">
+                  <textarea name="message" id="message" placeholder="Message"></textarea>
+                </div>
+                <div class="col-12">
+                  <ul class="actions">
+                    <li><input type="submit" value="Send Message" /></li>
+                    <li><input type="reset" value="Clear Form" class="alt" /></li>
+                  </ul>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-12">
+            <hr />
+            <h3>Find me on ...</h3>
+            <ul class="social">
+              <!-- <li>
+                <a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a>
+              </li>
+              <li>
+                <a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a>
+              </li> -->
+              <li>
+                <a
+                  href="https://www.linkedin.com/in/sulaimon-ekundayo/"
+                  class="icon brands fa-linkedin-in"
+                  target="_blank"
+                  ><span class="label">LinkedIn</span></a
+                >
+              </li>
+              <!-- <li>
+                <a href="#" class="icon brands fa-google-plus"><span class="label">Google+</span></a>
+              </li> -->
+              <li>
+                <a href="https://github.com/esodevops" class="icon brands fa-github" target="_blank"
+                  ><span class="label">Github</span></a
+                >
+              </li>
+              <!--
+								<li><a href="#" class="icon solid fa-rss"><span>RSS</span></a></li>
+								<li><a href="#" class="icon brands fa-instagram"><span>Instagram</span></a></li>
+								<li><a href="#" class="icon brands fa-foursquare"><span>Foursquare</span></a></li>
+								<li><a href="#" class="icon brands fa-skype"><span>Skype</span></a></li>
+								<li><a href="#" class="icon brands fa-soundcloud"><span>Soundcloud</span></a></li>
+								<li><a href="#" class="icon brands fa-youtube"><span>YouTube</span></a></li>
+								<li><a href="#" class="icon brands fa-blogger"><span>Blogger</span></a></li>
+								<li><a href="#" class="icon brands fa-flickr"><span>Flickr</span></a></li>
+								<li><a href="#" class="icon brands fa-vimeo"><span>Vimeo</span></a></li>
+								-->
+            </ul>
+            <hr />
+          </div>
+        </div>
+        <footer>
+          <ul id="copyright">
+            <li>&copy; Sulaimon Ekundayo. All rights reserved.</li>
+            <!-- <li>Design: <a href="http://html5up.net">HTML5 UP</a></li> -->
+          </ul>
+        </footer>
+      </div>
+    </article>
 
     <!-- Scripts -->
     <script src="../assets/js/jquery.min.js"></script>
@@ -180,6 +267,5 @@
     <script src="../assets/js/breakpoints.min.js"></script>
     <script src="../assets/js/util.js"></script>
     <script src="../assets/js/main.js"></script>
-
-</body>
+  </body>
 </html>
