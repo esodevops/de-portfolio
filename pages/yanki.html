@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yanki E-commerce Data Pipeline - Data Engineering Portfolio</title>
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <style>
+        /* Custom styles for Yanki page */
+        body {
+            padding-top: 3.5em;
+        }
+
+        .page-wrapper {
+            padding: 4em 0;
+        }
+
+        .project-header {
+            text-align: center;
+            margin-bottom: 3em;
+        }
+
+        .project-header h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+            color: #3e3e3e;
+        }
+
+        .project-header .subtitle {
+            font-size: 1.2em;
+            color: #888;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-nav {
+            margin-bottom: 2em;
+        }
+
+        .back-nav a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5em;
+            color: #43B3E0;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .back-nav a:hover {
+            color: #43bff0;
+        }
+
+        .back-nav a::before {
+            content: '\2190';
+            font-size: 1.2em;
+        }
+
+        .project-content {
+            background: #fff;
+            border-radius: 8px;
+            padding: 2.5em;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2em;
+        }
+
+        .project-image {
+            margin: 2em 0;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .project-description {
+            text-align: justify;
+            line-height: 1.85em;
+            margin-bottom: 1.5em;
+        }
+
+        .feature-box {
+            background-color: #f8f9fa;
+            padding: 1.5em;
+            border-left: 4px solid #43B3E0;
+            border-radius: 4px;
+            margin: 2em 0;
+        }
+
+        .feature-box h4 {
+            color: #3e3e3e;
+            margin-bottom: 1em;
+            font-size: 1.1em;
+        }
+
+        .feature-box p {
+            color: #555;
+            margin-bottom: 0;
+        }
+
+        .feature-box ul {
+            list-style: disc;
+            margin-left: 1.5em;
+            margin-bottom: 0;
+        }
+
+        .feature-box li {
+            margin-bottom: 0.5em;
+            color: #555;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1em;
+            margin-top: 2em;
+            flex-wrap: wrap;
+        }
+
+        .action-buttons .button {
+            margin-bottom: 0;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5em;
+            margin: 2em 0;
+        }
+
+        .tech-tag {
+            background: #f0f0f0;
+            color: #555;
+            padding: 0.3em 0.8em;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .section-divider {
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #ddd, transparent);
+            margin: 2em 0;
+        }
+
+        .highlight-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+            padding: 2em;
+            border-radius: 8px;
+            margin: 2em 0;
+        }
+
+        .highlight-section h3 {
+            color: #3e3e3e;
+            margin-bottom: 1em;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5em;
+            margin: 2em 0;
+        }
+
+        .metric-item {
+            text-align: center;
+            padding: 1.5em;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .metric-item strong {
+            display: block;
+            font-size: 2em;
+            color: #43B3E0;
+            margin-bottom: 0.3em;
+        }
+
+        .metric-item span {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        code, pre {
+            font-family: 'Courier New', monospace;
+            background: #f5f5f5;
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+        }
+
+        pre {
+            padding: 1em;
+            overflow-x: auto;
+            margin: 1em 0;
+        }
+
+        pre code {
+            padding: 0;
+            background: none;
+        }
+
+        .erd-section {
+            text-align: center;
+            margin: 2em 0;
+            padding: 2em;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+            border-radius: 8px;
+        }
+
+        .erd-section h3 {
+            color: #3e3e3e;
+            margin-bottom: 1em;
+        }
+
+        .erd-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin: 1em 0;
+        }
+
+        @media screen and (max-width: 736px) {
+            .project-content {
+                padding: 1.5em;
+            }
+
+            .project-header h1 {
+                font-size: 1.8em;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body class="is-preload">
+
+    <!-- Navigation -->
+    <nav id="nav">
+        <ul class="container">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#metrics">Metrics</a></li>
+            <li><a href="#pipeline">Pipeline</a></li>
+            <li><a href="#erd">ERD</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <article id="top" class="wrapper" style="background: #fcfcfc;">
+        <div class="container">
+            <!-- Back Navigation -->
+            <div class="back-nav">
+                <a href="../index.html">Back to Portfolio</a>
+            </div>
+
+            <!-- Project Header -->
+            <header class="project-header">
+                <h1>Yanki E-commerce Data Pipeline</h1>
+                <p class="subtitle">E-commerce Data Pipeline and Analytics Case Study</p>
+            </header>
+
+            <!-- Project Content -->
+            <div class="project-content" id="overview">
+                <!-- Project Image -->
+                <div class="project-image">
+                    <img src="../images/yanki.jpg" alt="Yanki E-commerce Data Pipeline" />
+                </div>
+
+                <!-- Description -->
+                <div class="project-description">
+                    <p>
+                        A full data engineering project that extracts messy e-commerce CSV data, cleans and normalizes it with Python,
+                        models it for PostgreSQL, validates the outputs, and prepares the business for SQL reporting, customer analysis,
+                        revenue tracking, and window-function insights.
+                    </p>
+                    <p>
+                        The project demonstrates end-to-end data engineering skills including ETL development, data modeling, database design,
+                        automated testing, and business analytics. The pipeline transforms raw, denormalized e-commerce data into a clean,
+                        relational structure suitable for production analytics workloads.
+                    </p>
+                </div>
+
+                <!-- Technology Tags -->
+                <div class="tech-tags">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">pandas</span>
+                    <span class="tech-tag">PostgreSQL</span>
+                    <span class="tech-tag">Docker</span>
+                    <span class="tech-tag">pytest</span>
+                    <span class="tech-tag">GitHub Actions</span>
+                    <span class="tech-tag">ETL</span>
+                    <span class="tech-tag">Data Modeling</span>
+                </div>
+
+                <hr class="section-divider" />
+
+                <!-- Metrics Section -->
+                <div id="metrics">
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <strong>2,041</strong>
+                            <span>Raw CSV lines processed</span>
+                        </div>
+                        <div class="metric-item">
+                            <strong>5</strong>
+                            <span>Normalized output tables</span>
+                        </div>
+                        <div class="metric-item">
+                            <strong>991</strong>
+                            <span>Clean records in core tables</span>
+                        </div>
+                        <div class="metric-item">
+                            <strong>17+</strong>
+                            <span>Business analytics questions</span>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="section-divider" />
+
+                <!-- Project Overview -->
+                <div class="feature-box">
+                    <h4><strong>Business Problem</strong></h4>
+                    <p>
+                        The company had valuable sales history, but the raw structure mixed orders, customers, products, shipping
+                        information, and payment details together. That made it harder to detect revenue trends, understand customer
+                        value, monitor transaction success, and prepare reliable PostgreSQL tables for reporting.
+                    </p>
+                    <ul>
+                        <li>Extract historical e-commerce data from CSV files.</li>
+                        <li>Clean missing values, duplicate rows, and inconsistent date formats.</li>
+                        <li>Normalize the dataset into relational tables with keys and references.</li>
+                        <li>Load the modeled data into PostgreSQL for durable analysis.</li>
+                        <li>Answer business questions using joins, CASE logic, rankings, and window functions.</li>
+                    </ul>
+                </div>
+
+                <hr class="section-divider" />
+
+                <!-- Pipeline Section -->
+                <div id="pipeline">
+                    <div class="highlight-section">
+                        <h3>Pipeline Design</h3>
+                        <p class="project-description">
+                            The pipeline separates engineering concerns clearly: read safely, clean consistently, normalize into tables,
+                            persist outputs, and validate the final structure before analysis begins.
+                        </p>
+                        <ol>
+                            <li><strong>Extract</strong> - Read the raw Yanki e-commerce CSV with a safe loader that logs successful loads and failures.</li>
+                            <li><strong>Clean</strong> - Remove unusable records, coerce order dates, and reduce duplicate rows that would distort reporting.</li>
+                            <li><strong>Normalize</strong> - Split the wide source into customers, products, shipping addresses, orders, and payment methods.</li>
+                            <li><strong>Load</strong> - Create a PostgreSQL schema and insert clean CSV data into relational tables with foreign keys.</li>
+                            <li><strong>Validate</strong> - Run schema checks and automated tests to confirm expected files, columns, and non-empty outputs.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <hr class="section-divider" />
+
+                <!-- ERD Section -->
+                <div id="erd" class="erd-section">
+                    <h3>Entity Relationship Diagram</h3>
+                    <p class="project-description">
+                        The normalized database schema consists of five tables with proper foreign key relationships,
+                        enabling efficient querying and maintaining data integrity.
+                    </p>
+                    <img src="../images/erd.png" alt="Yanki E-commerce ERD" />
+                    <p>
+                        <strong>Tables:</strong> customers, products, shipping_addresses, orders, payment_methods
+                    </p>
+                </div>
+
+                <hr class="section-divider" />
+
+                <!-- Implementation -->
+                <div class="feature-box">
+                    <h4><strong>ETL Normalization</strong></h4>
+                    <p>
+                        The raw file is transformed into five clean tables. Each table keeps only the columns needed for its entity,
+                        then duplicates are removed before saving the outputs.
+                    </p>
+                    <pre><code>customers_df = df[["Customer_ID", "Customer_Name", "Email", "Phone_Number"]].drop_duplicates()
+products_df = df[["Product_ID", "Product_Name", "Brand", "Category", "Price"]].drop_duplicates()
+orders_df = df[["Order_ID", "Customer_ID", "Product_ID", "Quantity", "Total_Price", "Order_Date"]].drop_duplicates()
+payment_method_df = df[["Order_ID", "Payment_Method", "Transaction_Status"]].drop_duplicates()</code></pre>
+                </div>
+
+                <hr class="section-divider" />
+
+                <div class="feature-box">
+                    <h4><strong>PostgreSQL Modeling</strong></h4>
+                    <p>
+                        The database layer creates a dedicated <code>yanki</code> schema, defines primary keys and foreign keys,
+                        and loads CSV rows with conflict handling for repeatable execution.
+                    </p>
+                    <pre><code>CREATE TABLE yanki.orders (
+  Order_ID UUID PRIMARY KEY,
+  Customer_ID UUID REFERENCES yanki.customers(Customer_ID),
+  Product_ID UUID REFERENCES yanki.products(Product_ID),
+  Quantity INTEGER,
+  Total_Price FLOAT,
+  Order_Date DATE
+);</code></pre>
+                </div>
+
+                <hr class="section-divider" />
+
+                <div class="feature-box">
+                    <h4><strong>Analytics Capabilities</strong></h4>
+                    <p>The normalized schema enables complex analytical queries including:</p>
+                    <ul>
+                        <li>Customer lifetime value analysis with window functions</li>
+                        <li>Product performance rankings and category analysis</li>
+                        <li>Revenue trends by date, location, and payment method</li>
+                        <li>Transaction success rates and failure analysis</li>
+                        <li>Geographic distribution of customers and orders</li>
+                    </ul>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                  <a href="https://ik.imagekit.io/wiryqrudj/yanki-report.pdf" 
+                     target="_blank" 
+                     class="button">
+                      View Full Report
+                  </a>
+                    <a href="https://github.com/esodevops/yanki-ecommerce-pipeline" 
+                       target="_blank" 
+                       class="button alt">
+                        <span class="icon brands fa-github" style="margin-right: 0.3em;"></span>
+                        View on GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 2em 0; color: #888;">
+        <p style="margin: 0;">&copy; 2024 Data Engineering Portfolio. Built with the Miniport template.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/jquery.scrolly.min.js"></script>
+    <script src="../assets/js/browser.min.js"></script>
+    <script src="../assets/js/breakpoints.min.js"></script>
+    <script src="../assets/js/util.js"></script>
+    <script src="../assets/js/main.js"></script>
+
+</body>
+</html>
