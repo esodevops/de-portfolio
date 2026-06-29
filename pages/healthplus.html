@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="SwiftRide Logistics PostgreSQL and Supabase data engineering case study - production-minded relational data platform.">
-  <title>SwiftRide Logistics | Data Engineering Case Study</title>
+  <meta name="description" content="HealthPlus Hospitals patient data modernization project built with Pandas, SQLAlchemy, and PostgreSQL.">
+  <title>HealthPlus Hospitals | Patient Data Modernization</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
@@ -650,9 +650,18 @@
       transform: translateY(-3px);
     }
 
+    .copyright {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: center;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.88rem;
+    }
+
     /* Footer */
     footer {
-      padding: 80px 0 48px;
+      padding: 48px 0;
       color: white;
       background: var(--green-dark);
     }
@@ -661,33 +670,19 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 32px;
+      gap: 24px;
     }
 
-    .footer-inner h2 {
+    footer h2 {
       color: white;
-      font-size: 1.8rem;
-      margin-bottom: 8px;
+      font-size: 1.5rem;
+      margin-bottom: 6px;
     }
 
-    .footer-inner p {
+    footer p {
       margin: 0;
-      color: rgba(255, 255, 255, 0.65);
-      font-size: 0.98rem;
-    }
-
-    .footer-inner .eyebrow {
-      margin-bottom: 8px;
-      font-size: 0.75rem;
-    }
-
-    .copyright {
-      margin-top: 48px;
-      padding-top: 24px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      text-align: center;
-      color: rgba(255, 255, 255, 0.45);
-      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.95rem;
     }
 
     /* Responsive */
@@ -721,12 +716,6 @@
       .step {
         grid-template-columns: 70px 200px 1fr;
         gap: 24px;
-      }
-
-      .footer-inner {
-        flex-direction: column;
-        text-align: center;
-        align-items: center;
       }
     }
 
@@ -771,6 +760,19 @@
       .step span {
         font-size: 1.2rem;
       }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-form {
+        padding: 28px 20px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+      }
     }
 
     @media (max-width: 480px) {
@@ -797,10 +799,10 @@
   <!-- Navigation -->
   <nav aria-label="Main navigation">
     <div class="container nav-inner">
-      <div class="brand">SwiftRide Logistics</div>
+      <div class="brand">HealthPlus Data</div>
       <div class="nav-links">
         <a href="#overview">Overview</a>
-        <a href="#architecture">Architecture</a>
+        <a href="#problem">Problem</a>
         <a href="#pipeline">Pipeline</a>
         <a href="#database">Database</a>
         <a href="#contact">Contact</a>
@@ -811,15 +813,15 @@
   <!-- Hero Section -->
   <header class="hero">
     <div class="container">
-      <p class="eyebrow">Logistics · Data Engineering</p>
-      <h1>SwiftRide Logistics Database System</h1>
+      <p class="eyebrow">Healthcare · Data Engineering</p>
+      <h1>Patient data, made trustworthy.</h1>
       <p class="hero-copy">
-        A production-minded relational data platform that transforms fragmented logistics records into
-        governed, queryable operations and decision-ready management reporting.
+        An end-to-end modernization project that cleans fragmented hospital records,
+        standardizes critical fields, and loads reliable healthcare data into PostgreSQL.
       </p>
       <div class="actions">
         <a class="button primary" href="#pipeline">Explore the pipeline</a>
-        <a class="button" href="https://github.com/esodevops/swiftride-logistics-database" target="_blank">View repository</a>
+        <a class="button" href="notebooks/healthplus.ipynb">View the notebook</a>
       </div>
     </div>
   </header>
@@ -831,45 +833,70 @@
         <div class="section-heading">
           <div>
             <p class="eyebrow">Project overview</p>
-            <h2>Replace manual records with a reliable operating model.</h2>
+            <h2>One source of truth for hospital operations.</h2>
           </div>
           <p class="lead">
-            SwiftRide needed a single source of truth for customers, orders, deliveries, fleet resources,
-            inventory, and payments. This project transforms fragmented logistics data into a governed,
-            queryable operations platform with end-to-end referential integrity.
+            HealthPlus Hospitals operates across Nigeria, but independent branch systems
+            created inconsistent patient, doctor, appointment, and billing records. This
+            project transforms those raw files into clean analytical assets and centralized
+            database tables for dependable reporting.
           </p>
         </div>
 
-        <div class="stats" aria-label="Project statistics">
-          <div class="stat"><strong>3,960</strong><span>Records integrated</span></div>
-          <div class="stat"><strong>8</strong><span>Relational tables</span></div>
-          <div class="stat"><strong>4</strong><span>Business schemas</span></div>
-          <div class="stat"><strong>110M+</strong><span>Order value analyzed</span></div>
+        <div class="stats" aria-label="Dataset statistics">
+          <div class="stat"><strong>1,670</strong><span>Patient records</span></div>
+          <div class="stat"><strong>1,500</strong><span>Doctor records</span></div>
+          <div class="stat"><strong>1,800</strong><span>Appointments</span></div>
+          <div class="stat"><strong>1,700</strong><span>Billing records</span></div>
         </div>
       </div>
     </section>
 
-    <!-- Architecture Section -->
-    <section class="problem" id="architecture">
+    <!-- Problem Section -->
+    <section class="problem" id="problem">
       <div class="container">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Technical architecture</p>
-            <h2>Four schemas, one connected operational view.</h2>
+            <p class="eyebrow">The challenge</p>
+            <h2>Messy records weaken every decision downstream.</h2>
           </div>
           <p class="lead">
-            The architecture separates business domains while preserving cross-schema relationships
-            through primary keys, foreign keys, validation constraints, and cascade rules.
+            Manual entry and disconnected systems caused quality problems that made reports
+            unreliable. The cleaning workflow targets the issues with the greatest operational impact.
           </p>
         </div>
 
         <div class="cards">
-          <article class="card"><span class="card-number">01</span><h3>Operations Schema</h3><p>Customers, orders, and deliveries form the core transaction workflow with full referential integrity.</p></article>
-          <article class="card"><span class="card-number">02</span><h3>Fleet Schema</h3><p>Drivers and vehicles support assignment, status tracking, and capacity analysis.</p></article>
-          <article class="card"><span class="card-number">03</span><h3>Warehouse Schema</h3><p>Warehouse locations and inventory quantities enable real-time stock monitoring.</p></article>
-          <article class="card"><span class="card-number">04</span><h3>Finance Schema</h3><p>Payments connect financial status directly to customer orders with audit trails.</p></article>
-          <article class="card"><span class="card-number">05</span><h3>Data Governance</h3><p>Role-based access controls and environment-based credentials protect sensitive data.</p></article>
-          <article class="card"><span class="card-number">06</span><h3>Automated Loading</h3><p>One-command Supabase loader handles schema init, CSV imports, and validation.</p></article>
+          <article class="card">
+            <span class="card-number">01</span>
+            <h3>Missing and duplicate data</h3>
+            <p>Duplicate patient records and missing identifiers prevent dependable counting and linking.</p>
+          </article>
+          <article class="card">
+            <span class="card-number">02</span>
+            <h3>Inconsistent formats</h3>
+            <p>Names, locations, categories, phone numbers, and dates arrive in several formats.</p>
+          </article>
+          <article class="card">
+            <span class="card-number">03</span>
+            <h3>Invalid values</h3>
+            <p>Negative ages, malformed emails, and incorrect monetary values distort analysis.</p>
+          </article>
+          <article class="card">
+            <span class="card-number">04</span>
+            <h3>Broken relationships</h3>
+            <p>Missing patient and doctor references make appointments and invoices difficult to trace.</p>
+          </article>
+          <article class="card">
+            <span class="card-number">05</span>
+            <h3>Fragmented storage</h3>
+            <p>Separate CSV files limit centralized reporting and repeatable access to cleaned data.</p>
+          </article>
+          <article class="card">
+            <span class="card-number">06</span>
+            <h3>Limited analytics</h3>
+            <p>Unreliable inputs block retention, disease-trend, revenue, and resource-planning analysis.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -879,22 +906,23 @@
       <div class="container">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Delivery workflow</p>
-            <h2>From raw CSV files to management decisions.</h2>
+            <p class="eyebrow">Data pipeline</p>
+            <h2>From raw CSVs to PostgreSQL.</h2>
           </div>
           <p class="lead">
-            I treated the project as an operational pipeline, not a collection of isolated SQL exercises.
-            Each stage builds on the previous to deliver production-ready outcomes.
+            The notebook implements a transparent, repeatable workflow. Each step prepares
+            the data for the next, ending with database tables that are ready to query.
           </p>
         </div>
 
         <div class="steps">
-          <article class="step"><span>01</span><h3>Model</h3><p>Translated business requirements into normalized entities and relationships.</p></article>
-          <article class="step"><span>02</span><h3>Govern</h3><p>Applied keys, uniqueness, checks, cascading rules, and role-based access controls.</p></article>
-          <article class="step"><span>03</span><h3>Load</h3><p>Automated foreign-key-safe CSV ingestion into Supabase PostgreSQL.</p></article>
-          <article class="step"><span>04</span><h3>Analyze</h3><p>Built reusable DQL for revenue, delivery, customer, fleet, payment, and inventory analysis.</p></article>
-          <article class="step"><span>05</span><h3>Validate</h3><p>Post-load row-count validation and referential integrity checks confirm data quality.</p></article>
-          <article class="step"><span>06</span><h3>Report</h3><p>Generated Markdown and color PDF reports for technical and management audiences.</p></article>
+          <article class="step"><span>01</span><h3>Ingest</h3><p>Load four healthcare CSV files into Pandas DataFrames.</p></article>
+          <article class="step"><span>02</span><h3>Profile</h3><p>Identify missing values, duplicates, invalid types, and inconsistent formats.</p></article>
+          <article class="step"><span>03</span><h3>Clean</h3><p>Repair identifiers, normalize contact fields and dates, and handle invalid numeric values.</p></article>
+          <article class="step"><span>04</span><h3>Transform</h3><p>Standardize categories and create useful fields such as patient age groups.</p></article>
+          <article class="step"><span>05</span><h3>Export</h3><p>Write clean, reusable CSV files to the cleaned-data directory.</p></article>
+          <article class="step"><span>06</span><h3>Load</h3><p>Create the configured PostgreSQL database and write each DataFrame as a table.</p></article>
+          <article class="step"><span>07</span><h3>Validate</h3><p>Query table row counts to confirm that every dataset loaded successfully.</p></article>
         </div>
       </div>
     </section>
@@ -905,27 +933,23 @@
         <div class="section-heading">
           <div>
             <p class="eyebrow">Database design</p>
-            <h2>Eight connected operational tables.</h2>
+            <h2>Four connected operational tables.</h2>
           </div>
           <p class="lead">
-            The normalized model separates core entities while retaining the keys needed to connect every
-            order to its customer, delivery, fleet assignment, and payment outcome.
+            The model connects appointments to patients and doctors, while billing records
+            reference patients. This structure supports operational reporting without duplicating core entities.
           </p>
         </div>
 
         <div class="schema-layout">
           <div class="table-list">
-            <div class="table-item"><code>customers</code><small>Identity and contact details</small></div>
-            <div class="table-item"><code>orders</code><small>Order headers with values and dates</small></div>
-            <div class="table-item"><code>deliveries</code><small>Delivery status and tracking</small></div>
-            <div class="table-item"><code>drivers</code><small>Driver info and assignments</small></div>
-            <div class="table-item"><code>vehicles</code><small>Fleet capacity and status</small></div>
-            <div class="table-item"><code>warehouses</code><small>Storage locations</small></div>
-            <div class="table-item"><code>inventory</code><small>Stock levels and products</small></div>
-            <div class="table-item"><code>payments</code><small>Transaction status and amounts</small></div>
+            <div class="table-item"><code>patients</code><small>Demographics and contacts</small></div>
+            <div class="table-item"><code>doctors</code><small>Specialties and branches</small></div>
+            <div class="table-item"><code>appointments</code><small>Visits and statuses</small></div>
+            <div class="table-item"><code>billing</code><small>Charges and payments</small></div>
           </div>
           <figure class="erd">
-            <img src="docs/swiftride_erd.png" alt="Entity-relationship diagram for the SwiftRide Logistics database">
+            <img src="docs/erd/healthplus.png" alt="Entity-relationship diagram for the HealthPlus database">
           </figure>
         </div>
       </div>
@@ -937,14 +961,14 @@
         <p class="eyebrow">Technology</p>
         <h2 id="tools-title">A practical data stack.</h2>
         <div class="tool-row">
-          <span class="tool">PostgreSQL</span>
-          <span class="tool">Supabase</span>
-          <span class="tool">SQL</span>
-          <span class="tool">Bash</span>
           <span class="tool">Python</span>
-          <span class="tool">ReportLab</span>
-          <span class="tool">Draw.io</span>
-          <span class="tool">GitHub Actions</span>
+          <span class="tool">Pandas</span>
+          <span class="tool">NumPy</span>
+          <span class="tool">PostgreSQL</span>
+          <span class="tool">SQLAlchemy</span>
+          <span class="tool">psycopg2</span>
+          <span class="tool">Jupyter Notebook</span>
+          <span class="tool">python-dotenv</span>
         </div>
       </div>
     </section>
@@ -1005,28 +1029,11 @@
           </ul>
         </div>
 
-        <div class="copyright" style="margin-top: 40px; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.08); text-align: center; color: rgba(255, 255, 255, 0.5); font-size: 0.88rem;">
+        <div class="copyright">
           &copy; <script>document.write(new Date().getFullYear());</script> Sulaimon Ekundayo. All rights reserved.
         </div>
       </div>
     </section>
   </main>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container footer-inner">
-      <div>
-        <p class="eyebrow">SwiftRide Logistics</p>
-        <h2>Production-ready logistics data platform.</h2>
-        <p>PostgreSQL / Supabase / Data Engineering Portfolio Project</p>
-      </div>
-      <a class="button" href="https://github.com/esodevops/swiftride-logistics-database" target="_blank">View on GitHub</a>
-    </div>
-    <div class="container">
-      <div class="copyright">
-        &copy; <script>document.write(new Date().getFullYear());</script> Sulaimon Ekundayo. All rights reserved.
-      </div>
-    </div>
-  </footer>
 </body>
 </html>

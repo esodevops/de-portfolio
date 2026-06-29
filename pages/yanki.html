@@ -1,464 +1,1030 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yanki E-commerce Data Pipeline - Data Engineering Portfolio</title>
-    <link rel="stylesheet" href="../assets/css/main.css" />
-    <link rel="icon" type="image/png" href="../assets/portfolio.svg" />
-    <style>
-        /* Custom styles for Yanki page */
-        body {
-            padding-top: 3.5em;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Yanki E-commerce data engineering project - ETL, normalization, and window functions analysis with Pandas and PostgreSQL.">
+  <title>Yanki E-commerce | Data Engineering Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #132a2a;
+      --muted: #5f7070;
+      --cream: #f6f3e9;
+      --paper: #fffdf6;
+      --green: #0d6b5f;
+      --green-dark: #084c45;
+      --green-light: #197a6c;
+      --mint: #dceee7;
+      --gold: #e7a83e;
+      --line: rgba(19, 42, 42, 0.14);
+      --shadow: 0 24px 60px rgba(13, 60, 54, 0.12);
+      --shadow-sm: 0 8px 24px rgba(13, 60, 54, 0.08);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --radius-xl: 20px;
+      --transition: all 0.3s ease-in-out;
+    }
 
-        .page-wrapper {
-            padding: 4em 0;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        .project-header {
-            text-align: center;
-            margin-bottom: 3em;
-        }
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
 
-        .project-header h1 {
-            font-size: 2.5em;
-            margin-bottom: 0.5em;
-            color: #3e3e3e;
-        }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--cream);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      line-height: 1.65;
+      font-size: 16px;
+    }
 
-        .project-header .subtitle {
-            font-size: 1.2em;
-            color: #888;
-            max-width: 800px;
-            margin: 0 auto;
-        }
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: var(--transition);
+    }
 
-        .back-nav {
-            margin-bottom: 2em;
-        }
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
 
-        .back-nav a {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5em;
-            color: #43B3E0;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.2s ease-in-out;
-        }
+    .container {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
 
-        .back-nav a:hover {
-            color: #43bff0;
-        }
+    /* Navigation */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(8, 76, 69, 0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
 
-        .back-nav a::before {
-            content: '\2190';
-            font-size: 1.2em;
-        }
+    .nav-inner {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
 
-        .project-content {
-            background: #fff;
-            border-radius: 8px;
-            padding: 2.5em;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2em;
-        }
+    .brand {
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.03em;
+      color: white;
+    }
 
-        .project-image {
-            margin: 2em 0;
-            border-radius: 6px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      font-size: 0.92rem;
+      font-weight: 500;
+    }
 
-        .project-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
+    .nav-links a {
+      color: rgba(255, 255, 255, 0.72);
+      position: relative;
+    }
 
-        .project-description {
-            text-align: justify;
-            line-height: 1.85em;
-            margin-bottom: 1.5em;
-        }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--gold);
+      transition: width 0.3s ease;
+    }
 
-        .feature-box {
-            background-color: #f8f9fa;
-            padding: 1.5em;
-            border-left: 4px solid #43B3E0;
-            border-radius: 4px;
-            margin: 2em 0;
-        }
+    .nav-links a:hover {
+      color: white;
+    }
 
-        .feature-box h4 {
-            color: #3e3e3e;
-            margin-bottom: 1em;
-            font-size: 1.1em;
-        }
+    .nav-links a:hover::after {
+      width: 100%;
+    }
 
-        .feature-box p {
-            color: #555;
-            margin-bottom: 0;
-        }
+    /* Hero Section */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 120px 0 96px;
+      color: white;
+      background:
+        radial-gradient(circle at 85% 20%, rgba(231, 168, 62, 0.28), transparent 30%),
+        radial-gradient(circle at 15% 80%, rgba(25, 122, 108, 0.3), transparent 25%),
+        linear-gradient(135deg, #084c45 0%, #0d6b5f 50%, #197a6c 100%);
+    }
 
-        .feature-box ul {
-            list-style: disc;
-            margin-left: 1.5em;
-            margin-bottom: 0;
-        }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 800px;
+      height: 800px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 50%;
+      animation: float 20s ease-in-out infinite;
+    }
 
-        .feature-box li {
-            margin-bottom: 0.5em;
-            color: #555;
-        }
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      right: -150px;
+      bottom: -300px;
+      border: 60px solid rgba(255, 255, 255, 0.04);
+      border-radius: 50%;
+    }
 
-        .action-buttons {
-            display: flex;
-            gap: 1em;
-            margin-top: 2em;
-            flex-wrap: wrap;
-        }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(-30px, 30px) rotate(180deg); }
+    }
 
-        .action-buttons .button {
-            margin-bottom: 0;
-        }
+    .eyebrow {
+      margin: 0 0 20px;
+      color: var(--gold);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
 
-        .tech-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5em;
-            margin: 2em 0;
-        }
+    h1 {
+      max-width: 850px;
+      margin-bottom: 24px;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2.8rem, 6.5vw, 5.2rem);
+      font-weight: 500;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+    }
 
-        .tech-tag {
-            background: #f0f0f0;
-            color: #555;
-            padding: 0.3em 0.8em;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: 600;
-        }
+    .hero-copy {
+      max-width: 640px;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 1.15rem;
+      line-height: 1.7;
+    }
 
-        .section-divider {
-            border: none;
-            height: 1px;
-            background: linear-gradient(to right, transparent, #ddd, transparent);
-            margin: 2em 0;
-        }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 36px;
+    }
 
-        .highlight-section {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
-            padding: 2em;
-            border-radius: 8px;
-            margin: 2em 0;
-        }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 28px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 999px;
+      color: white;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: var(--transition);
+      cursor: pointer;
+    }
 
-        .highlight-section h3 {
-            color: #3e3e3e;
-            margin-bottom: 1em;
-        }
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
 
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1.5em;
-            margin: 2em 0;
-        }
+    .button.primary {
+      border-color: var(--gold);
+      background: var(--gold);
+      color: #2f260f;
+    }
 
-        .metric-item {
-            text-align: center;
-            padding: 1.5em;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
+    .button.primary:hover {
+      background: #f0b54e;
+      border-color: #f0b54e;
+    }
 
-        .metric-item strong {
-            display: block;
-            font-size: 2em;
-            color: #43B3E0;
-            margin-bottom: 0.3em;
-        }
+    /* Sections */
+    section {
+      padding: 100px 0;
+    }
 
-        .metric-item span {
-            color: #666;
-            font-size: 0.9em;
-        }
+    .section-heading {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 60px;
+      align-items: start;
+      margin-bottom: 52px;
+    }
 
-        code, pre {
-            font-family: 'Courier New', monospace;
-            background: #f5f5f5;
-            padding: 0.2em 0.4em;
-            border-radius: 4px;
-        }
+    .section-heading h2 {
+      margin-bottom: 16px;
+    }
 
-        pre {
-            padding: 1em;
-            overflow-x: auto;
-            margin: 1em 0;
-        }
+    h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      color: var(--ink);
+    }
 
-        pre code {
-            padding: 0;
-            background: none;
-        }
+    .lead {
+      max-width: 680px;
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.75;
+    }
 
-        .erd-section {
-            text-align: center;
-            margin: 2em 0;
-            padding: 2em;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
-            border-radius: 8px;
-        }
+    /* Stats */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
 
-        .erd-section h3 {
-            color: #3e3e3e;
-            margin-bottom: 1em;
-        }
+    .stat {
+      padding: 36px 28px;
+      border-right: 1px solid var(--line);
+      text-align: center;
+      transition: var(--transition);
+    }
 
-        .erd-section img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            margin: 1em 0;
-        }
+    .stat:hover {
+      background: var(--mint);
+    }
 
-        @media screen and (max-width: 736px) {
-            .project-content {
-                padding: 1.5em;
-            }
+    .stat:last-child {
+      border-right: 0;
+    }
 
-            .project-header h1 {
-                font-size: 1.8em;
-            }
+    .stat strong {
+      display: block;
+      color: var(--green);
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 2.8rem;
+      font-weight: 500;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
 
-            .action-buttons {
-                flex-direction: column;
-            }
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
 
-            .metrics-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-    </style>
+    /* Problem Section */
+    .problem {
+      background: var(--paper);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      min-height: 220px;
+      padding: 32px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: white;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--green), var(--green-light));
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .card-number {
+      display: inline-grid;
+      width: 40px;
+      height: 40px;
+      margin-bottom: 24px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--mint);
+      color: var(--green-dark);
+      font-size: 0.85rem;
+      font-weight: 800;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 1.12rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .card p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Pipeline Section */
+    .pipeline {
+      color: white;
+      background: var(--ink);
+    }
+
+    .pipeline h2 {
+      color: white;
+    }
+
+    .pipeline .lead {
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    .steps {
+      display: grid;
+      gap: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 90px 260px 1fr;
+      gap: 32px;
+      padding: 30px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      align-items: baseline;
+      transition: var(--transition);
+    }
+
+    .step:hover {
+      background: rgba(255, 255, 255, 0.03);
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    .step span {
+      color: var(--gold);
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+
+    .step h3 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: white;
+    }
+
+    .step p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.98rem;
+      line-height: 1.6;
+    }
+
+    /* Database Section */
+    .schema-layout {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .table-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .table-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--paper);
+      transition: var(--transition);
+    }
+
+    .table-item:hover {
+      border-color: var(--green);
+      transform: translateX(4px);
+    }
+
+    .table-item code {
+      color: var(--green);
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    .table-item small {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .erd {
+      margin: 0;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: white;
+      box-shadow: var(--shadow);
+    }
+
+    .erd img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: var(--radius-md);
+    }
+
+    /* Tools Section */
+    .tools {
+      padding-top: 60px;
+    }
+
+    .tool-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .tool {
+      padding: 12px 20px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--paper);
+      color: var(--green-dark);
+      font-size: 0.92rem;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .tool:hover {
+      border-color: var(--green);
+      background: var(--mint);
+      transform: translateY(-2px);
+    }
+
+    /* Contact Section */
+    .contact-section {
+      background: linear-gradient(135deg, #084c45 0%, #0d6b5f 100%);
+      color: white;
+      padding: 100px 0;
+    }
+
+    .contact-section h2 {
+      color: white;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      margin-bottom: 16px;
+    }
+
+    .contact-section p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      max-width: 600px;
+      margin-bottom: 36px;
+    }
+
+    .contact-form {
+      max-width: 600px;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 40px;
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(10px);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      display: none;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      padding: 16px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .form-group textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .form-actions input[type="submit"] {
+      flex: 1;
+      max-width: 200px;
+    }
+
+    .form-actions input[type="reset"] {
+      flex: 1;
+      max-width: 200px;
+      background: transparent;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .social-section {
+      margin-top: 60px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .social-section h3 {
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .social {
+      display: flex;
+      gap: 16px;
+      list-style: none;
+    }
+
+    .social a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.2rem;
+      transition: var(--transition);
+    }
+
+    .social a:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-3px);
+    }
+
+    /* Footer */
+    footer {
+      padding: 80px 0 48px;
+      color: white;
+      background: var(--green-dark);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .footer-inner h2 {
+      color: white;
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+
+    .footer-inner p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.65);
+      font-size: 0.98rem;
+    }
+
+    .footer-inner .eyebrow {
+      margin-bottom: 8px;
+      font-size: 0.75rem;
+    }
+
+    .copyright {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      color: rgba(255, 255, 255, 0.45);
+      font-size: 0.85rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .section-heading {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .schema-layout {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stat:nth-child(2) {
+        border-right: 0;
+      }
+
+      .stat:nth-child(-n+2) {
+        border-bottom: 1px solid var(--line);
+      }
+
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .step {
+        grid-template-columns: 70px 200px 1fr;
+        gap: 24px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 90px 0 72px;
+      }
+
+      section {
+        padding: 72px 0;
+      }
+
+      .container {
+        width: min(100% - 32px, 1120px);
+      }
+
+      .stats,
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .stat,
+      .stat:nth-child(2) {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .stat:last-child {
+        border-bottom: 0;
+      }
+
+      .step {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 24px 0;
+      }
+
+      .step span {
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .actions {
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .stat strong {
+        font-size: 2.2rem;
+      }
+
+      .card {
+        min-height: auto;
+        padding: 24px;
+      }
+    }
+  </style>
 </head>
-<body class="is-preload">
+<body>
+  <!-- Navigation -->
+  <nav aria-label="Main navigation">
+    <div class="container nav-inner">
+      <div class="brand">Yanki E-commerce</div>
+      <div class="nav-links">
+        <a href="#overview">Overview</a>
+        <a href="#analytics">Analytics</a>
+        <a href="#pipeline">Pipeline</a>
+        <a href="#database">Database</a>
+      </div>
+    </div>
+  </nav>
 
-    <!-- Navigation -->
-    <nav id="nav">
-        <ul class="container">
-            <li><a href="../index.html">Home</a></li>
-            <li><a href="#overview">Overview</a></li>
-            <li><a href="#metrics">Metrics</a></li>
-            <li><a href="#pipeline">Pipeline</a></li>
-            <li><a href="#erd">ERD</a></li>
-        </ul>
-    </nav>
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container">
+      <p class="eyebrow">E-commerce · Data Engineering</p>
+      <h1>Clean records. Smarter commerce.</h1>
+      <p class="hero-copy">
+        A comprehensive e-commerce data engineering project that transforms raw sales data into
+        normalized, analytics-ready datasets using ETL pipelines, window functions, and automated testing.
+      </p>
+      <div class="actions">
+        <a class="button primary" href="#pipeline">Explore the pipeline</a>
+        <a class="button" href="yanki.ipynb">View the notebook</a>
+      </div>
+    </div>
+  </header>
 
-    <!-- Main Content -->
-    <article id="top" class="wrapper" style="background: #fcfcfc;">
-        <div class="container">
-            <!-- Back Navigation -->
-            <div class="back-nav">
-                <a href="../index.html">Back to Portfolio</a>
-            </div>
-
-            <!-- Project Header -->
-            <header class="project-header">
-                <h1>Yanki E-commerce Data Pipeline</h1>
-                <p class="subtitle">E-commerce Data Pipeline and Analytics Case Study</p>
-            </header>
-
-            <!-- Project Content -->
-            <div class="project-content" id="overview">
-                <!-- Project Image -->
-                <div class="project-image">
-                    <img src="../images/yanki.jpg" alt="Yanki E-commerce Data Pipeline" />
-                </div>
-
-                <!-- Description -->
-                <div class="project-description">
-                    <p>
-                        A full data engineering project that extracts messy e-commerce CSV data, cleans and normalizes it with Python,
-                        models it for PostgreSQL, validates the outputs, and prepares the business for SQL reporting, customer analysis,
-                        revenue tracking, and window-function insights.
-                    </p>
-                    <p>
-                        The project demonstrates end-to-end data engineering skills including ETL development, data modeling, database design,
-                        automated testing, and business analytics. The pipeline transforms raw, denormalized e-commerce data into a clean,
-                        relational structure suitable for production analytics workloads.
-                    </p>
-                </div>
-
-                <!-- Technology Tags -->
-                <div class="tech-tags">
-                    <span class="tech-tag">Python</span>
-                    <span class="tech-tag">pandas</span>
-                    <span class="tech-tag">PostgreSQL</span>
-                    <span class="tech-tag">Docker</span>
-                    <span class="tech-tag">pytest</span>
-                    <span class="tech-tag">GitHub Actions</span>
-                    <span class="tech-tag">ETL</span>
-                    <span class="tech-tag">Data Modeling</span>
-                </div>
-
-                <hr class="section-divider" />
-
-                <!-- Metrics Section -->
-                <div id="metrics">
-                    <div class="metrics-grid">
-                        <div class="metric-item">
-                            <strong>2,041</strong>
-                            <span>Raw CSV lines processed</span>
-                        </div>
-                        <div class="metric-item">
-                            <strong>5</strong>
-                            <span>Normalized output tables</span>
-                        </div>
-                        <div class="metric-item">
-                            <strong>991</strong>
-                            <span>Clean records in core tables</span>
-                        </div>
-                        <div class="metric-item">
-                            <strong>17+</strong>
-                            <span>Business analytics questions</span>
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="section-divider" />
-
-                <!-- Project Overview -->
-                <div class="feature-box">
-                    <h4><strong>Business Problem</strong></h4>
-                    <p>
-                        The company had valuable sales history, but the raw structure mixed orders, customers, products, shipping
-                        information, and payment details together. That made it harder to detect revenue trends, understand customer
-                        value, monitor transaction success, and prepare reliable PostgreSQL tables for reporting.
-                    </p>
-                    <ul>
-                        <li>Extract historical e-commerce data from CSV files.</li>
-                        <li>Clean missing values, duplicate rows, and inconsistent date formats.</li>
-                        <li>Normalize the dataset into relational tables with keys and references.</li>
-                        <li>Load the modeled data into PostgreSQL for durable analysis.</li>
-                        <li>Answer business questions using joins, CASE logic, rankings, and window functions.</li>
-                    </ul>
-                </div>
-
-                <hr class="section-divider" />
-
-                <!-- Pipeline Section -->
-                <div id="pipeline">
-                    <div class="highlight-section">
-                        <h3>Pipeline Design</h3>
-                        <p class="project-description">
-                            The pipeline separates engineering concerns clearly: read safely, clean consistently, normalize into tables,
-                            persist outputs, and validate the final structure before analysis begins.
-                        </p>
-                        <ol>
-                            <li><strong>Extract</strong> - Read the raw Yanki e-commerce CSV with a safe loader that logs successful loads and failures.</li>
-                            <li><strong>Clean</strong> - Remove unusable records, coerce order dates, and reduce duplicate rows that would distort reporting.</li>
-                            <li><strong>Normalize</strong> - Split the wide source into customers, products, shipping addresses, orders, and payment methods.</li>
-                            <li><strong>Load</strong> - Create a PostgreSQL schema and insert clean CSV data into relational tables with foreign keys.</li>
-                            <li><strong>Validate</strong> - Run schema checks and automated tests to confirm expected files, columns, and non-empty outputs.</li>
-                        </ol>
-                    </div>
-                </div>
-
-                <hr class="section-divider" />
-
-                <!-- ERD Section -->
-                <div id="erd" class="erd-section">
-                    <h3>Entity Relationship Diagram</h3>
-                    <p class="project-description">
-                        The normalized database schema consists of five tables with proper foreign key relationships,
-                        enabling efficient querying and maintaining data integrity.
-                    </p>
-                    <img src="../images/erd.png" alt="Yanki E-commerce ERD" />
-                    <p>
-                        <strong>Tables:</strong> customers, products, shipping_addresses, orders, payment_methods
-                    </p>
-                </div>
-
-                <hr class="section-divider" />
-
-                <!-- Implementation -->
-                <div class="feature-box">
-                    <h4><strong>ETL Normalization</strong></h4>
-                    <p>
-                        The raw file is transformed into five clean tables. Each table keeps only the columns needed for its entity,
-                        then duplicates are removed before saving the outputs.
-                    </p>
-                    <pre><code>customers_df = df[["Customer_ID", "Customer_Name", "Email", "Phone_Number"]].drop_duplicates()
-products_df = df[["Product_ID", "Product_Name", "Brand", "Category", "Price"]].drop_duplicates()
-orders_df = df[["Order_ID", "Customer_ID", "Product_ID", "Quantity", "Total_Price", "Order_Date"]].drop_duplicates()
-payment_method_df = df[["Order_ID", "Payment_Method", "Transaction_Status"]].drop_duplicates()</code></pre>
-                </div>
-
-                <hr class="section-divider" />
-
-                <div class="feature-box">
-                    <h4><strong>PostgreSQL Modeling</strong></h4>
-                    <p>
-                        The database layer creates a dedicated <code>yanki</code> schema, defines primary keys and foreign keys,
-                        and loads CSV rows with conflict handling for repeatable execution.
-                    </p>
-                    <pre><code>CREATE TABLE yanki.orders (
-  Order_ID UUID PRIMARY KEY,
-  Customer_ID UUID REFERENCES yanki.customers(Customer_ID),
-  Product_ID UUID REFERENCES yanki.products(Product_ID),
-  Quantity INTEGER,
-  Total_Price FLOAT,
-  Order_Date DATE
-);</code></pre>
-                </div>
-
-                <hr class="section-divider" />
-
-                <div class="feature-box">
-                    <h4><strong>Analytics Capabilities</strong></h4>
-                    <p>The normalized schema enables complex analytical queries including:</p>
-                    <ul>
-                        <li>Customer lifetime value analysis with window functions</li>
-                        <li>Product performance rankings and category analysis</li>
-                        <li>Revenue trends by date, location, and payment method</li>
-                        <li>Transaction success rates and failure analysis</li>
-                        <li>Geographic distribution of customers and orders</li>
-                    </ul>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="action-buttons">
-                  <a href="https://ik.imagekit.io/wiryqrudj/yanki-report.pdf" 
-                     target="_blank" 
-                     class="button">
-                      View Full Report
-                  </a>
-                    <a href="https://github.com/esodevops/yanki-window-functions" 
-                       target="_blank" 
-                       class="button alt">
-                        <span class="icon brands fa-github" style="margin-right: 0.3em;"></span>
-                        View on GitHub
-                    </a>
-                </div>
-            </div>
+  <main>
+    <!-- Overview Section -->
+    <section id="overview">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Project overview</p>
+            <h2>From a flat export to an analytics-ready model.</h2>
+          </div>
+          <p class="lead">
+            Yanki E-commerce needs reliable insight from historical orders, customers, products, locations,
+            and payments. This project turns a denormalized CSV into tested, reusable data assets for
+            reporting, ranking, trend analysis, and operational decision-making.
+          </p>
         </div>
-    </article>
 
-    <!-- Footer -->
-    <footer style="text-align: center; padding: 2em 0; color: #888;">
-        <p style="margin: 0;">&copy; <script>document.write(new Date().getFullYear());</script> Data Engineering Portfolio.</p>
-    </footer>
+        <div class="stats" aria-label="Project statistics">
+          <div class="stat"><strong>1,020</strong><span>Raw sales records</span></div>
+          <div class="stat"><strong>990</strong><span>Clean order records</span></div>
+          <div class="stat"><strong>5</strong><span>Normalized datasets</span></div>
+          <div class="stat"><strong>10+</strong><span>Business questions</span></div>
+        </div>
+      </div>
+    </section>
 
-    <!-- Scripts -->
-    <script src="../assets/js/jquery.min.js"></script>
-    <script src="../assets/js/jquery.scrolly.min.js"></script>
-    <script src="../assets/js/browser.min.js"></script>
-    <script src="../assets/js/breakpoints.min.js"></script>
-    <script src="../assets/js/util.js"></script>
-    <script src="../assets/js/main.js"></script>
+    <!-- Analytics Section -->
+    <section class="problem" id="analytics">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Analytics focus</p>
+            <h2>Window functions reveal what totals alone cannot.</h2>
+          </div>
+          <p class="lead">
+            The exercises combine joins, aggregations, ranking, running calculations, and segmentation
+            to answer practical questions about revenue, customer value, product performance, and payment health.
+          </p>
+        </div>
 
+        <div class="cards">
+          <article class="card"><span class="card-number">01</span><h3>Running sales totals</h3><p>Track cumulative order value over time while preserving each individual transaction.</p></article>
+          <article class="card"><span class="card-number">02</span><h3>Customer ranking</h3><p>Rank shoppers by total spend and identify the customers driving the most revenue.</p></article>
+          <article class="card"><span class="card-number">03</span><h3>Product performance</h3><p>Compare products within categories by price, units sold, and total sales contribution.</p></article>
+          <article class="card"><span class="card-number">04</span><h3>Sales trends</h3><p>Measure monthly revenue, order volume, average order value, and geographic contribution.</p></article>
+          <article class="card"><span class="card-number">05</span><h3>Customer segments</h3><p>Classify buyers by order activity, purchase frequency, value, and potential churn risk.</p></article>
+          <article class="card"><span class="card-number">06</span><h3>Data quality checks</h3><p>Detect duplicates, missing values, invalid schemas, and pricing mismatches before analysis.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pipeline Section -->
+    <section class="pipeline" id="pipeline">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Data pipeline</p>
+            <h2>From raw orders to dependable insight.</h2>
+          </div>
+          <p class="lead">
+            The workflow separates production ETL logic from exploration, then backs the result with
+            validation scripts and automated tests so each stage remains repeatable.
+          </p>
+        </div>
+
+        <div class="steps">
+          <article class="step"><span>01</span><h3>Extract</h3><p>Read the historical e-commerce CSV into Pandas with safe loading and clear logging.</p></article>
+          <article class="step"><span>02</span><h3>Profile</h3><p>Inspect columns, types, null values, duplicates, and inconsistencies in commerce records.</p></article>
+          <article class="step"><span>03</span><h3>Clean</h3><p>Standardize identifiers, dates, contact details, prices, quantities, and categorical values.</p></article>
+          <article class="step"><span>04</span><h3>Normalize</h3><p>Split the flat source into customers, products, addresses, orders, and payment methods.</p></article>
+          <article class="step"><span>05</span><h3>Analyze</h3><p>Apply joins, group calculations, ranking, running totals, cases, and window operations.</p></article>
+          <article class="step"><span>06</span><h3>Load</h3><p>Prepare structured outputs for PostgreSQL storage and reusable business reporting.</p></article>
+          <article class="step"><span>07</span><h3>Validate</h3><p>Run schema checks and pytest coverage to confirm required files and columns are present.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Database Section -->
+    <section id="database">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Database design</p>
+            <h2>Five connected commerce tables.</h2>
+          </div>
+          <p class="lead">
+            The normalized model separates core entities while retaining the keys needed to connect every
+            order to its customer, product, shipping destination, and payment outcome.
+          </p>
+        </div>
+
+        <div class="schema-layout">
+          <div class="table-list">
+            <div class="table-item"><code>customers</code><small>Identity and contact details</small></div>
+            <div class="table-item"><code>products</code><small>Catalog, category, and price</small></div>
+            <div class="table-item"><code>shipping_address</code><small>Customer delivery locations</small></div>
+            <div class="table-item"><code>orders</code><small>Quantity, value, and order date</small></div>
+            <div class="table-item"><code>payment_method</code><small>Method and transaction status</small></div>
+          </div>
+          <figure class="erd">
+            <img src="docs/erd.png" alt="Entity-relationship diagram for the Yanki e-commerce data model">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section class="tools" aria-labelledby="tools-title">
+      <div class="container">
+        <p class="eyebrow">Technology</p>
+        <h2 id="tools-title">A practical data stack.</h2>
+        <div class="tool-row">
+          <span class="tool">Python</span>
+          <span class="tool">Pandas</span>
+          <span class="tool">NumPy</span>
+          <span class="tool">PostgreSQL</span>
+          <span class="tool">SQLAlchemy</span>
+          <span class="tool">Jupyter Notebook</span>
+          <span class="tool">Pytest</span>
+          <span class="tool">Docker</span>
+          <span class="tool">GitHub Actions</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+      <div class="container">
+        <h2>Let's Work Together</h2>
+        <p>
+          Have a project in mind? I'd love to hear about it. Send me a message and let's discuss how we can turn your
+          data challenges into opportunities.
+        </p>
+
+        <div class="contact-form">
+          <form method="post" action="https://formspree.io/f/mzdlpnbb">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" placeholder="Your name" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="Your email" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full">
+                <label for="subject">Subject</label>
+                <input type="text" name="subject" id="subject" placeholder="Subject">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full">
+                <label for="message">Message</label>
+                <textarea name="message" id="message" placeholder="Tell me about your project..." required></textarea>
+              </div>
+            </div>
+            <div class="form-actions">
+              <input type="submit" value="Send Message" class="button primary">
+              <input type="reset" value="Clear Form" class="button">
+            </div>
+          </form>
+        </div>
+
+        <div class="social-section">
+          <h3>Find me on ...</h3>
+          <ul class="social">
+            <li>
+              <a href="https://www.linkedin.com/in/sulaimon-ekundayo/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/esodevops" target="_blank" rel="noopener" aria-label="GitHub">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="copyright" style="margin-top: 40px; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.08); text-align: center; color: rgba(255, 255, 255, 0.5); font-size: 0.88rem;">
+          &copy; <script>document.write(new Date().getFullYear());</script> Sulaimon Ekundayo. All rights reserved.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-inner">
+      <div>
+        <p class="eyebrow">Yanki E-commerce</p>
+        <h2>Clean records. Smarter commerce.</h2>
+        <p>ETL & Window Functions · Data Engineering Portfolio Project</p>
+      </div>
+      <a class="button" href="README.md">Read project documentation</a>
+    </div>
+    <div class="container">
+      <div class="copyright">
+        &copy; <script>document.write(new Date().getFullYear());</script> Sulaimon Ekundayo. All rights reserved.
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
