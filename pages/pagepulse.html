@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="PagePulse is an end-to-end book catalogue ETL pipeline built with Selenium, Beautiful Soup, pandas, PostgreSQL, and business-focused SQL analytics."
+    />
+    <meta name="theme-color" content="#084c45" />
+    <title>PagePulse | Book Catalogue ETL Pipeline</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Playfair+Display:wght@400;500;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/css/pagepulse.css" />
+    <link rel="icon" type="image/png" href="../assets/portfolio.svg" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <nav aria-label="Main navigation">
+      <div class="container nav-inner">
+        <a class="brand" href="#top" aria-label="PagePulse home">Page<span>Pulse</span></a>
+        <div class="nav-links">
+          <a href="../index.html">Home</a>
+          <a href="#overview">Overview</a>
+          <a href="#pipeline">Pipeline</a>
+          <a href="#data">Data</a>
+          <a href="#analytics">Analytics</a>
+        </div>
+      </div>
+    </nav>
+
+      <!-- Back Button -->
+  <div class="container" style="padding-top: 20px;">
+    <a href="../index.html#portfolio" class="back-btn" style="display: inline-flex; align-items: center; gap: 8px; color: var(--green); font-weight: 600; text-decoration: none; padding: 10px 20px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--paper); transition: var(--transition);">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to Portfolio
+    </a>
+  </div>
+
+    <header class="hero" id="top">
+      <div class="container hero-content">
+        <p class="eyebrow">Web scraping · ETL · Business analytics</p>
+        <h1>Book catalogue data, made useful.</h1>
+        <p class="hero-copy">
+          PagePulse turns a 50-page online book catalogue into a clean, queryable PostgreSQL dataset—combining browser
+          automation, reliable transformation, governed storage, and decision-ready SQL.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="#pipeline">Explore the pipeline</a>
+          <a
+            class="button"
+            href="https://github.com/esodevops/pagepulse-booksite-etl-pipeline"
+            target="_blank"
+            rel="noopener noreferrer"
+            >View GitHub</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section id="overview">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Project overview</p>
+              <h2>From storefront pages to a trusted data asset.</h2>
+            </div>
+            <p class="lead">
+              The source website is designed for scraping practice but its catalogue still spans pagination, product
+              cards, and individual detail pages. PagePulse automates that journey, standardizes each record, and
+              creates a reusable foundation for pricing, assortment, rating, and availability analysis.
+            </p>
+          </div>
+          <div class="stats" aria-label="Project statistics">
+            <div class="stat"><strong>1,000</strong><span>Books extracted</span></div>
+            <div class="stat"><strong>50</strong><span>Catalogue pages</span></div>
+            <div class="stat"><strong>50</strong><span>Book categories</span></div>
+            <div class="stat"><strong>8</strong><span>Business SQL queries</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="challenge" id="challenge">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">The challenge</p>
+              <h2>Web pages are not analytics tables.</h2>
+            </div>
+            <p class="lead">
+              Useful catalogue reporting requires more than downloading HTML. The pipeline has to navigate the site,
+              resolve product links, extract consistent fields, enforce useful types, and preserve a repeatable path
+              into the database.
+            </p>
+          </div>
+          <div class="cards">
+            <article class="card">
+              <span class="card-number">01</span>
+              <h3>Paginated catalogue</h3>
+              <p>Product records are distributed across 50 pages rather than exposed as one downloadable dataset.</p>
+            </article>
+            <article class="card">
+              <span class="card-number">02</span>
+              <h3>Nested detail data</h3>
+              <p>Category information lives on individual book pages and requires a second navigation step.</p>
+            </article>
+            <article class="card">
+              <span class="card-number">03</span>
+              <h3>Presentation-first values</h3>
+              <p>
+                Prices contain currency symbols, ratings arrive as words, and stock text includes visual whitespace.
+              </p>
+            </article>
+            <article class="card">
+              <span class="card-number">04</span>
+              <h3>Relative asset links</h3>
+              <p>Product and cover-image paths must be resolved into complete URLs for downstream reuse.</p>
+            </article>
+            <article class="card">
+              <span class="card-number">05</span>
+              <h3>Data quality</h3>
+              <p>Types, required values, rating ranges, prices, and unique product URLs need explicit validation.</p>
+            </article>
+            <article class="card">
+              <span class="card-number">06</span>
+              <h3>Business usability</h3>
+              <p>Raw records become more valuable when paired with readable queries tied to real decisions.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="pipeline" id="pipeline">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Data pipeline</p>
+              <h2>Extract. Transform. Load. Analyze.</h2>
+            </div>
+            <p class="lead">
+              A transparent notebook workflow takes the project from a browser session to indexed PostgreSQL data and
+              documented analysis.
+            </p>
+          </div>
+          <div class="steps">
+            <article class="step">
+              <span>01</span>
+              <h3>Discover</h3>
+              <p>Confirm source availability and establish the catalogue URL pattern.</p>
+            </article>
+            <article class="step">
+              <span>02</span>
+              <h3>Extract</h3>
+              <p>Use Selenium to visit catalogue and product pages, then parse HTML with Beautiful Soup.</p>
+            </article>
+            <article class="step">
+              <span>03</span>
+              <h3>Structure</h3>
+              <p>Capture titles, prices, availability, ratings, categories, product URLs, and image URLs.</p>
+            </article>
+            <article class="step">
+              <span>04</span>
+              <h3>Transform</h3>
+              <p>Convert prices to numeric values and map written ratings to a consistent one-to-five scale.</p>
+            </article>
+            <article class="step">
+              <span>05</span>
+              <h3>Persist</h3>
+              <p>Write raw and cleaned CSV layers so the extraction output remains inspectable and reusable.</p>
+            </article>
+            <article class="step">
+              <span>06</span>
+              <h3>Load</h3>
+              <p>Create the PagePulse PostgreSQL schema and load clean records through SQLAlchemy or psql.</p>
+            </article>
+            <article class="step">
+              <span>07</span>
+              <h3>Analyze</h3>
+              <p>Run plain-language SQL for catalogue, category, pricing, rating, value, and stock insights.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="data">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Data product</p>
+              <h2>Seven source fields, ready to query.</h2>
+            </div>
+            <p class="lead">
+              The governed schema adds a generated identifier and load timestamp while protecting the core catalogue
+              data with required-field, range, price, and uniqueness constraints.
+            </p>
+          </div>
+          <div class="data-grid">
+            <div class="field-list" aria-label="Dataset fields">
+              <div class="field"><code>book_names</code><small>Product title</small></div>
+              <div class="field"><code>availability</code><small>Stock status</small></div>
+              <div class="field"><code>ratings</code><small>1–5 rating</small></div>
+              <div class="field"><code>prices</code><small>GBP numeric value</small></div>
+              <div class="field"><code>categories</code><small>Catalogue grouping</small></div>
+              <div class="field"><code>book_urls</code><small>Unique detail URL</small></div>
+              <div class="field"><code>book_images</code><small>Cover-image URL</small></div>
+            </div>
+            <div class="preview">
+              <div class="preview-head"><span>pagepulse.books_data</span><small>Sample records</small></div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Book</th>
+                      <th>Category</th>
+                      <th>Rating</th>
+                      <th>Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>A Light in the Attic</td>
+                      <td>Poetry</td>
+                      <td class="rating">★★★</td>
+                      <td>£51.77</td>
+                    </tr>
+                    <tr>
+                      <td>Tipping the Velvet</td>
+                      <td>Historical Fiction</td>
+                      <td class="rating">★</td>
+                      <td>£53.74</td>
+                    </tr>
+                    <tr>
+                      <td>Soumission</td>
+                      <td>Fiction</td>
+                      <td class="rating">★</td>
+                      <td>£50.10</td>
+                    </tr>
+                    <tr>
+                      <td>Sharp Objects</td>
+                      <td>Mystery</td>
+                      <td class="rating">★★★★</td>
+                      <td>£47.82</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="analytics" id="analytics">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Business analytics</p>
+              <h2>Queries written for decisions.</h2>
+            </div>
+            <p class="lead">
+              Instead of abstract SQL exercises, each analysis starts with a clear commercial question and returns an
+              output that a catalogue or merchandising team can understand.
+            </p>
+          </div>
+          <div class="query-grid">
+            <article class="query">
+              <span class="query-icon">01</span>
+              <div>
+                <h3>Catalogue health</h3>
+                <p>Measure assortment size, category coverage, average price, average rating, and stock percentage.</p>
+              </div>
+            </article>
+            <article class="query">
+              <span class="query-icon">02</span>
+              <div>
+                <h3>Category performance</h3>
+                <p>Compare category depth, price position, average rating, and highly rated inventory.</p>
+              </div>
+            </article>
+            <article class="query">
+              <span class="query-icon">03</span>
+              <div>
+                <h3>Premium opportunities</h3>
+                <p>Identify in-stock books that combine above-average pricing with strong ratings.</p>
+              </div>
+            </article>
+            <article class="query">
+              <span class="query-icon">04</span>
+              <div>
+                <h3>Customer value</h3>
+                <p>Surface affordable books with four- or five-star ratings for value-led promotions.</p>
+              </div>
+            </article>
+            <article class="query">
+              <span class="query-icon">05</span>
+              <div>
+                <h3>Rating mix</h3>
+                <p>Understand how much of the assortment falls within each customer rating level.</p>
+              </div>
+            </article>
+            <article class="query">
+              <span class="query-icon">06</span>
+              <div>
+                <h3>Price architecture</h3>
+                <p>Group books into budget, mid-range, and premium bands and compare their ratings.</p>
+              </div>
+            </article>
+            <article class="query">
+              <span class="query-icon">07</span>
+              <div>
+                <h3>Assortment improvement</h3>
+                <p>Find sizeable categories with low average ratings and a concentration of weak products.</p>
+              </div>
+            </article>
+            <article class="query">
+              <span class="query-icon">08</span>
+              <div>
+                <h3>Availability risk</h3>
+                <p>Highlight categories with the greatest share of products currently unavailable.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="tools" aria-labelledby="tools-title">
+        <div class="container">
+          <p class="eyebrow">Technology</p>
+          <h2 id="tools-title">A practical data engineering stack.</h2>
+          <div class="tool-row">
+            <span class="tool">Python</span><span class="tool">Selenium</span><span class="tool">Beautiful Soup</span
+            ><span class="tool">pandas</span><span class="tool">PostgreSQL</span><span class="tool">SQL</span
+            ><span class="tool">SQLAlchemy</span><span class="tool">psycopg2</span
+            ><span class="tool">Jupyter Notebook</span><span class="tool">python-dotenv</span>
+          </div>
+        </div>
+      </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+      <div class="container">
+        <h2>Let's Work Together</h2>
+        <p>
+          Have a project in mind? I'd love to hear about it. Send me a message and let's discuss how we can turn your
+          data challenges into opportunities.
+        </p>
+
+        <div class="contact-form">
+          <form method="post" action="https://formspree.io/f/mzdlpnbb">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" placeholder="Your name" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="Your email" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full">
+                <label for="subject">Subject</label>
+                <input type="text" name="subject" id="subject" placeholder="Subject">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full">
+                <label for="message">Message</label>
+                <textarea name="message" id="message" placeholder="Tell me about your project..." required></textarea>
+              </div>
+            </div>
+            <div class="form-actions">
+              <input type="submit" value="Send Message" class="button primary">
+              <input type="reset" value="Clear Form" class="button">
+            </div>
+          </form>
+        </div>
+
+        <div class="social-section">
+          <h3>Find me on ...</h3>
+          <ul class="social">
+            <li>
+              <a href="https://www.linkedin.com/in/sulaimon-ekundayo/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/esodevops" target="_blank" rel="noopener" aria-label="GitHub">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="copyright">
+          &copy; <script>document.write(new Date().getFullYear());</script> Sulaimon Ekundayo. All rights reserved.
+        </div>
+      </div>
+    </section>
+    </main>
+  </body>
+</html>
