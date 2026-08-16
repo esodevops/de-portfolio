@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Zipco Food's Apache Airflow ETL pipeline cleans, normalizes, and publishes retail transaction data to Azure Blob Storage.">
+  <title>Zipco Food | Airflow ETL Pipeline</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="../assets/portfolio.svg" />
+  <style>
+    :root {
+      --ink: #132a2a;
+      --muted: #5f7070;
+      --cream: #f6f3e9;
+      --paper: #fffdf6;
+      --green: #0d6b5f;
+      --green-dark: #084c45;
+      --green-light: #197a6c;
+      --mint: #dceee7;
+      --gold: #e7a83e;
+      --line: rgba(19, 42, 42, 0.14);
+      --shadow: 0 24px 60px rgba(13, 60, 54, 0.12);
+      --shadow-sm: 0 8px 24px rgba(13, 60, 54, 0.08);
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --radius-xl: 20px;
+      --transition: all 0.3s ease-in-out;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      color: var(--ink);
+      background: var(--cream);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; transition: var(--transition); }
+    .container { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      background: rgba(8, 76, 69, .96);
+      backdrop-filter: blur(16px);
+    }
+    .nav-inner { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { color: #fff; font-size: 1.25rem; font-weight: 800; letter-spacing: -.03em; }
+    .nav-links { display: flex; gap: 28px; font-size: .92rem; font-weight: 500; }
+    .nav-links a { position: relative; color: rgba(255,255,255,.72); }
+    .nav-links a::after { position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; content: ""; background: var(--gold); transition: width .3s ease; }
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { width: 100%; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 120px 0 96px;
+      color: #fff;
+      background: radial-gradient(circle at 85% 20%, rgba(231,168,62,.28), transparent 30%), radial-gradient(circle at 15% 80%, rgba(25,122,108,.3), transparent 25%), linear-gradient(135deg, #084c45 0%, #0d6b5f 50%, #197a6c 100%);
+    }
+    .hero::before { position: absolute; top: -55%; right: -20%; width: 800px; height: 800px; content: ""; border: 1px solid rgba(255,255,255,.06); border-radius: 50%; animation: float 20s ease-in-out infinite; }
+    .hero::after { position: absolute; right: -150px; bottom: -300px; width: 500px; height: 500px; content: ""; border: 60px solid rgba(255,255,255,.04); border-radius: 50%; }
+    @keyframes float { 50% { transform: translate(-30px, 30px) rotate(180deg); } }
+    .hero .container { position: relative; z-index: 1; }
+    .eyebrow { margin-bottom: 20px; color: var(--gold); font-size: .8rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+    h1, h2 { font-family: "Playfair Display", Georgia, serif; font-weight: 500; letter-spacing: -.04em; line-height: 1.1; }
+    h1 { max-width: 900px; margin-bottom: 24px; font-size: clamp(2.8rem, 6.5vw, 5.2rem); }
+    h2 { color: var(--ink); font-size: clamp(2rem, 4.5vw, 3.2rem); line-height: 1.2; }
+    .hero-copy { max-width: 670px; color: rgba(255,255,255,.78); font-size: 1.15rem; line-height: 1.7; }
+    .actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px; }
+    .button { display: inline-flex; min-height: 52px; padding: 0 28px; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,.25); border-radius: 999px; color: #fff; font-size: .95rem; font-weight: 600; }
+    .button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.2); }
+    .button.primary { border-color: var(--gold); background: var(--gold); color: #2f260f; }
+
+    section { padding: 100px 0; }
+    .section-heading { display: grid; grid-template-columns: .8fr 1.2fr; gap: 60px; margin-bottom: 52px; align-items: start; }
+    .lead { max-width: 680px; color: var(--muted); font-size: 1.08rem; line-height: 1.75; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius-xl); background: var(--paper); box-shadow: var(--shadow); }
+    .stat { padding: 36px 28px; border-right: 1px solid var(--line); text-align: center; transition: var(--transition); }
+    .stat:last-child { border: 0; }
+    .stat:hover { background: var(--mint); }
+    .stat strong { display: block; margin-bottom: 8px; color: var(--green); font-family: "Playfair Display", Georgia, serif; font-size: 2.8rem; font-weight: 500; line-height: 1; }
+    .stat span { color: var(--muted); font-size: .9rem; font-weight: 500; }
+
+    .challenge { background: var(--paper); }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .card { position: relative; overflow: hidden; min-height: 220px; padding: 32px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: #fff; transition: var(--transition); }
+    .card::before { position: absolute; top: 0; right: 0; left: 0; height: 3px; content: ""; background: linear-gradient(90deg, var(--green), var(--green-light)); transform: scaleX(0); transition: transform .3s ease; }
+    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-sm); }
+    .card:hover::before { transform: scaleX(1); }
+    .card-number { display: inline-grid; width: 40px; height: 40px; margin-bottom: 24px; place-items: center; border-radius: 50%; background: var(--mint); color: var(--green-dark); font-size: .85rem; font-weight: 800; }
+    .card h3 { margin-bottom: 10px; font-size: 1.12rem; }
+    .card p { color: var(--muted); font-size: .95rem; }
+
+    .pipeline { color: #fff; background: var(--ink); }
+    .pipeline h2 { color: #fff; }
+    .pipeline .lead { color: rgba(255,255,255,.65); }
+    .steps { display: grid; border-top: 1px solid rgba(255,255,255,.12); }
+    .step { display: grid; grid-template-columns: 90px 260px 1fr; gap: 32px; padding: 30px 0; align-items: baseline; border-bottom: 1px solid rgba(255,255,255,.12); transition: var(--transition); }
+    .step:hover { padding-right: 10px; padding-left: 10px; background: rgba(255,255,255,.03); }
+    .step span { color: var(--gold); font-size: 1.5rem; font-weight: 800; }
+    .step h3 { color: #fff; font-size: 1.2rem; }
+    .step p { color: rgba(255,255,255,.6); font-size: .98rem; }
+
+    .architecture { display: grid; grid-template-columns: .8fr 1.2fr; gap: 48px; align-items: center; }
+    .table-list { display: grid; gap: 14px; }
+    .table-item { display: flex; padding: 20px 24px; align-items: center; justify-content: space-between; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--paper); transition: var(--transition); }
+    .table-item:hover { border-color: var(--green); transform: translateX(4px); }
+    .table-item code { color: var(--green); font-size: 1.05rem; font-weight: 700; }
+    .table-item small { color: var(--muted); text-align: right; }
+    .flow { padding: 34px; border: 1px solid var(--line); border-radius: var(--radius-xl); background: #fff; box-shadow: var(--shadow); }
+    .flow-row { display: flex; align-items: stretch; justify-content: center; gap: 12px; }
+    .flow-node { display: grid; min-height: 118px; flex: 1; place-items: center; padding: 18px 12px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--mint); text-align: center; }
+    .flow-node strong { display: block; color: var(--green-dark); }
+    .flow-node small { color: var(--muted); }
+    .flow-arrow { align-self: center; color: var(--gold); font-size: 1.6rem; font-weight: 800; }
+    .outputs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 16px; }
+    .output { padding: 12px; border-radius: 8px; background: var(--cream); color: var(--green-dark); font-family: monospace; font-size: .78rem; text-align: center; }
+
+    .tools { padding-top: 60px; background: var(--paper); }
+    .tool-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .tool { padding: 12px 20px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--green-dark); font-size: .92rem; font-weight: 600; transition: var(--transition); }
+    .tool:hover { border-color: var(--green); background: var(--mint); transform: translateY(-2px); }
+
+    /* Contact Section */
+    .contact-section { background: linear-gradient(135deg, #084c45 0%, #0d6b5f 100%); color: #fff; padding: 100px 0; }
+    .contact-section h2 { color: #fff; font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 16px; }
+    .contact-section p { max-width: 600px; margin-bottom: 36px; color: rgba(255,255,255,.7); font-size: 1.05rem; line-height: 1.7; }
+    .contact-form { max-width: 600px; padding: 40px; border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-xl); background: rgba(255,255,255,.08); backdrop-filter: blur(10px); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+    .form-group { display: flex; flex-direction: column; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-group label { display: none; }
+    .form-group input,
+    .form-group textarea { padding: 16px 20px; border: 1px solid rgba(255,255,255,.2); border-radius: var(--radius-md); background: rgba(255,255,255,.1); color: #fff; font-family: inherit; font-size: 1rem; transition: var(--transition); }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(255,255,255,.5); }
+    .form-group input:focus,
+    .form-group textarea:focus { outline: none; border-color: var(--gold); background: rgba(255,255,255,.15); }
+    .form-group textarea { min-height: 140px; resize: vertical; }
+    .form-actions { display: flex; gap: 14px; margin-top: 24px; }
+    .form-actions input[type="submit"] { flex: 1; max-width: 200px; }
+    .form-actions input[type="reset"] { flex: 1; max-width: 200px; background: transparent; border-color: rgba(255,255,255,.3); }
+
+    footer { padding: 72px 0; color: #fff; background: linear-gradient(135deg, #084c45, #0d6b5f); }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 30px; }
+    footer h2 { margin-bottom: 8px; color: #fff; font-size: clamp(1.8rem, 4vw, 2.5rem); }
+    footer p { max-width: 580px; color: rgba(255,255,255,.68); }
+
+    @media (max-width: 1024px) {
+      .section-heading, .architecture { grid-template-columns: 1fr; gap: 28px; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .stat:nth-child(2) { border-right: 0; }
+      .stat:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .cards { grid-template-columns: repeat(2, 1fr); }
+      .step { grid-template-columns: 70px 200px 1fr; gap: 24px; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { padding: 90px 0 72px; }
+      section { padding: 72px 0; }
+      .container { width: min(100% - 32px, 1120px); }
+      .stats, .cards { grid-template-columns: 1fr; }
+      .stat, .stat:nth-child(2) { border-right: 0; border-bottom: 1px solid var(--line); }
+      .step { grid-template-columns: 1fr; gap: 12px; padding: 24px 0; }
+      .flow-row { flex-direction: column; }
+      .flow-arrow { align-self: center; transform: rotate(90deg); }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+      .form-row { grid-template-columns: 1fr; }
+      .contact-form { padding: 28px 20px; }
+    }
+    @media (max-width: 480px) {
+      .actions { flex-direction: column; }
+      .button { width: 100%; }
+      .outputs { grid-template-columns: 1fr; }
+    }
+    .social-section {
+      margin-top: 60px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .social-section h3 {
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .social {
+      display: flex;
+      gap: 16px;
+      list-style: none;
+    }
+
+    .social a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.2rem;
+      transition: var(--transition);
+    }
+
+    .social a:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-3px);
+    }
+
+    /* Footer */
+    footer {
+      padding: 80px 0 48px;
+      color: white;
+      background: var(--green-dark);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .footer-inner h2 {
+      color: white;
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+
+    .footer-inner p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.65);
+      font-size: 0.98rem;
+    }
+
+    .footer-inner .eyebrow {
+      margin-bottom: 8px;
+      font-size: 0.75rem;
+    }
+
+    .copyright {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      color: rgba(255, 255, 255, 0.45);
+      font-size: 0.85rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .section-heading {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .schema-layout {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stat:nth-child(2) {
+        border-right: 0;
+      }
+
+      .stat:nth-child(-n+2) {
+        border-bottom: 1px solid var(--line);
+      }
+
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .step {
+        grid-template-columns: 70px 200px 1fr;
+        gap: 24px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 90px 0 72px;
+      }
+
+      section {
+        padding: 72px 0;
+      }
+
+      .container {
+        width: min(100% - 32px, 1120px);
+      }
+
+      .stats,
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .stat,
+      .stat:nth-child(2) {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .stat:last-child {
+        border-bottom: 0;
+      }
+
+      .step {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 24px 0;
+      }
+
+      .step span {
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .actions {
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .stat strong {
+        font-size: 2.2rem;
+      }
+
+      .card {
+        min-height: auto;
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav aria-label="Main navigation">
+    <div class="container nav-inner">
+      <a class="brand" href="#top">Zipco Food</a>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="#overview">Overview</a>
+        <a href="#challenge">Challenge</a>
+        <a href="#pipeline">Pipeline</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#technology">Technology</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Back Button -->
+  <div class="container" style="padding-top: 20px;">
+    <a href="../index.html#portfolio" class="back-btn" style="display: inline-flex; align-items: center; gap: 8px; color: var(--green); font-weight: 600; text-decoration: none; padding: 10px 20px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--paper); transition: var(--transition);">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to Portfolio
+    </a>
+  </div>
+
+  <header class="hero" id="top">
+    <div class="container">
+      <p class="eyebrow">Retail · Data Engineering · Cloud</p>
+      <h1>Food transaction data, ready to trust.</h1>
+      <p class="hero-copy">A batch ETL pipeline orchestrated with Apache Airflow that cleans Zipco Food transaction records, turns one flat source into normalized analytical datasets, and publishes them to Azure Blob Storage.</p>
+      <div class="actions">
+        <a class="button primary" href="#pipeline">Explore the pipeline</a>
+        <a class="button" href="https://github.com/esodevops/zipco-airflow-etl-pipeline" target="_blank" rel="noopener noreferrer">View GitHub</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="overview">
+      <div class="container">
+        <div class="section-heading">
+          <div><p class="eyebrow">Project overview</p><h2>One repeatable route from raw sales to cloud-ready data.</h2></div>
+          <p class="lead">Zipco Food's source file mixes customer, product, staff, store, payment, delivery, and transaction facts. This project packages the cleanup and normalization work into a clear three-stage Airflow workflow, producing reusable datasets for reporting and downstream analytics.</p>
+        </div>
+        <div class="stats" aria-label="Project statistics">
+          <div class="stat"><strong>2,010</strong><span>Raw source rows</span></div>
+          <div class="stat"><strong>5</strong><span>Published CSV datasets</span></div>
+          <div class="stat"><strong>3</strong><span>Orchestrated DAG tasks</span></div>
+          <div class="stat"><strong>1</strong><span>Automatic task retry</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="challenge" id="challenge">
+      <div class="container">
+        <div class="section-heading">
+          <div><p class="eyebrow">The challenge</p><h2>A flat transaction file hides valuable structure.</h2></div>
+          <p class="lead">Before the data can support dependable analysis, the workflow has to correct common quality problems and separate repeating business entities from transaction facts.</p>
+        </div>
+        <div class="cards">
+          <article class="card"><span class="card-number">01</span><h3>Duplicate records</h3><p>Repeated rows inflate totals and weaken the reliability of sales reporting.</p></article>
+          <article class="card"><span class="card-number">02</span><h3>Missing values</h3><p>Numeric gaps are filled with column means while missing text is labeled consistently.</p></article>
+          <article class="card"><span class="card-number">03</span><h3>Repeated entities</h3><p>Customer, staff, and product details recur in the same wide transaction dataset.</p></article>
+          <article class="card"><span class="card-number">04</span><h3>Entity relationships</h3><p>Generated IDs link each transaction to its product, customer, and staff records.</p></article>
+          <article class="card"><span class="card-number">05</span><h3>Manual processing</h3><p>Airflow makes the extract, transform, and load sequence visible and repeatable.</p></article>
+          <article class="card"><span class="card-number">06</span><h3>Cloud delivery</h3><p>Raw and processed assets are organized into separate Azure Blob Storage paths.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="pipeline" id="pipeline">
+      <div class="container">
+        <div class="section-heading">
+          <div><p class="eyebrow">Data pipeline</p><h2>Extract. Transform. Load.</h2></div>
+          <p class="lead">The <code>zipco_food_dag</code> coordinates three Python tasks in sequence. Airflow provides retries and SMTP failure notifications, while each stage keeps a focused responsibility.</p>
+        </div>
+        <div class="steps">
+          <article class="step"><span>01</span><h3>Extract</h3><p>Read <code>zipco_transaction.csv</code> from the raw-data directory into a Pandas DataFrame.</p></article>
+          <article class="step"><span>02</span><h3>Clean</h3><p>Remove duplicate records and handle missing numeric and text values consistently.</p></article>
+          <article class="step"><span>03</span><h3>Normalize</h3><p>Create product, customer, and staff dimensions with generated IDs, then link them to transaction facts.</p></article>
+          <article class="step"><span>04</span><h3>Export</h3><p>Write the cleaned source plus four normalized CSV datasets to the local cleaned-data directory.</p></article>
+          <article class="step"><span>05</span><h3>Publish</h3><p>Upload the cleaned source to <code>raw/</code> and the normalized datasets to <code>processed/</code> in Azure Blob Storage.</p></article>
+          <article class="step"><span>06</span><h3>Monitor</h3><p>Retry failed tasks once and send an SMTP alert containing the DAG, task, run, and log details.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture">
+      <div class="container">
+        <div class="section-heading">
+          <div><p class="eyebrow">Data architecture</p><h2>Small, purposeful analytical assets.</h2></div>
+          <p class="lead">Normalization reduces repetition and gives downstream consumers focused files. Transactions retain the measurable business event while IDs connect each event to its descriptive entities.</p>
+        </div>
+        <div class="architecture">
+          <div class="table-list">
+            <div class="table-item"><code>products.csv</code><small>Products and unit prices</small></div>
+            <div class="table-item"><code>customers.csv</code><small>Customer identity and contact</small></div>
+            <div class="table-item"><code>staff.csv</code><small>Staff identity and email</small></div>
+            <div class="table-item"><code>transactions.csv</code><small>Sales facts and foreign IDs</small></div>
+            <div class="table-item"><code>clean_data.csv</code><small>Cleaned full-source archive</small></div>
+          </div>
+          <div class="flow" role="img" aria-label="CSV source flows through Airflow and Pandas into Azure Blob Storage">
+            <div class="flow-row">
+              <div class="flow-node"><div><strong>CSV source</strong><small>Zipco transactions</small></div></div>
+              <span class="flow-arrow" aria-hidden="true">→</span>
+              <div class="flow-node"><div><strong>Airflow + Pandas</strong><small>Orchestrate and transform</small></div></div>
+              <span class="flow-arrow" aria-hidden="true">→</span>
+              <div class="flow-node"><div><strong>Azure Blob</strong><small>Raw and processed zones</small></div></div>
+            </div>
+            <div class="outputs" aria-label="Normalized outputs">
+              <div class="output">ProductID</div><div class="output">CustomerID</div><div class="output">StaffID</div><div class="output">TransactionID</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tools" id="technology">
+      <div class="container">
+        <p class="eyebrow">Technology</p>
+        <h2>A practical orchestration and cloud stack.</h2>
+        <div class="tool-row">
+          <span class="tool">Python</span><span class="tool">Pandas</span><span class="tool">Apache Airflow</span><span class="tool">Azure Blob Storage</span><span class="tool">Azure SDK</span><span class="tool">SMTP Alerts</span><span class="tool">python-dotenv</span><span class="tool">CSV</span>
+        </div>
+      </div>
+    </section>
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+      <div class="container">
+        <h2>Let's Work Together</h2>
+        <p>
+          Have a project in mind? I'd love to hear about it. Send me a message and let's discuss how we can turn your
+          data challenges into opportunities.
+        </p>
+
+        <div class="contact-form">
+          <form method="post" action="https://formspree.io/f/mzdlpnbb">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" placeholder="Your name" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="Your email" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full">
+                <label for="subject">Subject</label>
+                <input type="text" name="subject" id="subject" placeholder="Subject">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full">
+                <label for="message">Message</label>
+                <textarea name="message" id="message" placeholder="Tell me about your project..." required></textarea>
+              </div>
+            </div>
+            <div class="form-actions">
+              <input type="submit" value="Send Message" class="button primary">
+              <input type="reset" value="Clear Form" class="button">
+            </div>
+          </form>
+        </div>
+
+        <div class="social-section">
+          <h3>Find me on ...</h3>
+          <ul class="social">
+            <li>
+              <a href="https://www.linkedin.com/in/sulaimon-ekundayo/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/esodevops" target="_blank" rel="noopener" aria-label="GitHub">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>
+        <p class="eyebrow">Zipco Food</p>
+        <h2>Food transaction data, ready to trust.</h2>
+        <p>Airflow ETL Pipeline · Data Engineering Portfolio Project</p>
+      </div>
+    </div>
+    <div class="container">
+      <div class="copyright">
+        &copy; <script>document.write(new Date().getFullYear());</script> Sulaimon Ekundayo. All rights reserved.
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
