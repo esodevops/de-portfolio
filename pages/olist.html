@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Olist Azure big data engineering project using Data Factory, ADLS Gen2, Databricks, MongoDB Atlas, Synapse Analytics, and a medallion architecture.">
+  <title>Olist Azure Data Pipeline | Data Engineering Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/olist.css" />
+
+</head>
+<body>
+  <nav aria-label="Main navigation">
+    <div class="container nav-inner">
+      <a class="brand" href="#home">Olist Azure Pipeline</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle navigation">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <div class="nav-links" id="nav-links">
+        <a href="#home">Home</a>
+        <a href="#overview">Overview</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#pipeline">Pipeline</a>
+        <a href="#transformations">Transformations</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="home">
+    <div class="container">
+      <p class="eyebrow">Azure · Big Data Engineering · E-commerce</p>
+      <h1>Raw commerce data. Cloud-scale decisions.</h1>
+      <p class="hero-copy">
+        An end-to-end Olist data platform that orchestrates ingestion with Azure Data Factory,
+        transforms and enriches data with Databricks and MongoDB, and serves analytics-ready
+        datasets through ADLS Gen2 and Azure Synapse.
+      </p>
+      <div class="actions">
+        <a class="button primary" href="#pipeline">Explore the pipeline</a>
+        <a class="button" href="https://github.com/esodevops/BigDataProject-olist-ecommerce-data-pipeline" target="_blank" rel="noopener noreferrer">View GitHub</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="overview">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Project overview</p>
+            <h2>A governed path from source files to BI.</h2>
+          </div>
+          <p class="lead">
+            The project models a production-style batch pipeline around the Brazilian Olist dataset.
+            It combines parameterized ingestion, lakehouse processing, NoSQL enrichment, and serverless
+            SQL serving in a Bronze, Silver, and Gold architecture.
+          </p>
+        </div>
+        <div class="stats" aria-label="Project statistics">
+          <div class="stat"><strong>8</strong><span>Core source datasets</span></div>
+          <div class="stat"><strong>560K+</strong><span>Local source rows</span></div>
+          <div class="stat"><strong>3</strong><span>Medallion layers</span></div>
+          <div class="stat"><strong>6</strong><span>Cloud data services</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="architecture" id="architecture">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Solution architecture</p>
+            <h2>One connected analytics platform.</h2>
+          </div>
+          <p class="lead">
+            Data Factory coordinates ingestion into ADLS Gen2. Databricks performs distributed processing
+            and enriches product categories from MongoDB. Synapse exposes curated lake data to visualization
+            tools such as Power BI, Tableau, and Microsoft Fabric.
+          </p>
+        </div>
+        <figure class="architecture-frame">
+          <img src="../images/olist-note.png" alt="Architecture diagram showing data sources flowing through Azure Data Factory, ADLS Gen2, Databricks, MongoDB, Synapse, and visualization tools">
+          <figcaption>End-to-end flow from HTTP and relational sources to governed analytical consumption.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="pipeline" id="pipeline">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Data pipeline</p>
+            <h2>Built as a repeatable cloud workflow.</h2>
+          </div>
+          <p class="lead">
+            Each stage has a clear responsibility, from parameter-driven file movement to Spark transformations
+            and SQL serving. This separation makes the solution easier to operate, troubleshoot, and extend.
+          </p>
+        </div>
+        <div class="steps">
+          <article class="step"><span>01</span><h3>Ingest</h3><p>ADF ForEach activities copy Olist CSV files from HTTP endpoints and relational sources into ADLS Bronze.</p></article>
+          <article class="step"><span>02</span><h3>Validate</h3><p>File names, paths, headers, and source contents are checked before distributed processing begins.</p></article>
+          <article class="step"><span>03</span><h3>Transform</h3><p>Databricks cleans records, converts dates, derives delivery metrics, and joins the core commerce entities.</p></article>
+          <article class="step"><span>04</span><h3>Enrich</h3><p>MongoDB supplies Portuguese-to-English product-category mappings for analytics-friendly output.</p></article>
+          <article class="step"><span>05</span><h3>Persist</h3><p>The consolidated Spark DataFrame is written to the ADLS Silver layer in Delta/Parquet form.</p></article>
+          <article class="step"><span>06</span><h3>Serve</h3><p>Synapse serverless SQL creates views and a CETAS external table over curated lake data.</p></article>
+          <article class="step"><span>07</span><h3>Visualize</h3><p>Gold-layer data is prepared for dashboards and semantic models in Power BI, Tableau, or Fabric.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="transformations">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Transformation logic</p>
+            <h2>Commerce events become reliable metrics.</h2>
+          </div>
+          <p class="lead">
+            Spark turns independent operational datasets into a consolidated analytical model while retaining
+            unmatched orders through left joins and preserving the lineage of core business keys.
+          </p>
+        </div>
+        <div class="cards">
+          <article class="card"><span class="card-number">01</span><h3>Data quality</h3><p>Remove duplicate records and rows whose fields are entirely null before downstream processing.</p></article>
+          <article class="card"><span class="card-number">02</span><h3>Date standardization</h3><p>Convert purchase, approval, carrier, delivery, and estimated-delivery timestamps into usable date values.</p></article>
+          <article class="card"><span class="card-number">03</span><h3>Delivery performance</h3><p>Calculate actual and estimated delivery durations and identify orders delivered later than expected.</p></article>
+          <article class="card"><span class="card-number">04</span><h3>Entity joins</h3><p>Connect orders to customers, payments, items, products, and sellers using stable operational keys.</p></article>
+          <article class="card"><span class="card-number">05</span><h3>NoSQL enrichment</h3><p>Bring product-category translations from MongoDB into Spark for clear English-language reporting.</p></article>
+          <article class="card"><span class="card-number">06</span><h3>Curated serving</h3><p>Publish delivered-order views and a compressed Parquet external table for efficient analytical access.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="layers" id="layers">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Medallion architecture</p>
+            <h2>Progressive refinement by design.</h2>
+          </div>
+          <p class="lead">
+            Separating raw, transformed, and serving-ready assets protects source fidelity while allowing each
+            consumer to work with the level of quality and structure they need.
+          </p>
+        </div>
+        <div class="layer-grid">
+          <article class="layer"><span class="layer-label bronze">Bronze</span><h3>Raw landing zone</h3><p>Source CSV files arrive in ADLS Gen2 with their original structures and names for traceability and replay.</p></article>
+          <article class="layer"><span class="layer-label silver">Silver</span><h3>Clean and conformed</h3><p>Databricks writes joined, enriched, deduplicated, and typed records for reusable analytical workloads.</p></article>
+          <article class="layer"><span class="layer-label gold">Gold</span><h3>Business-ready serving</h3><p>Synapse views and external tables expose curated datasets optimized for reporting and decision-making.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="tools" id="technology" aria-labelledby="tools-title">
+      <div class="container">
+        <p class="eyebrow">Technology</p>
+        <h2 id="tools-title">A modern Azure data stack.</h2>
+        <div class="tool-row">
+          <span class="tool">Azure Data Factory</span>
+          <span class="tool">ADLS Gen2</span>
+          <span class="tool">Azure Databricks</span>
+          <span class="tool">Apache Spark</span>
+          <span class="tool">PySpark</span>
+          <span class="tool">Delta Lake</span>
+          <span class="tool">MongoDB Atlas</span>
+          <span class="tool">Azure Synapse</span>
+          <span class="tool">Python</span>
+          <span class="tool">SQL</span>
+          <span class="tool">Power BI</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="repository">
+      <div class="container">
+        <div class="repo-panel">
+          <div>
+            <h3>Explore the implementation</h3>
+            <p>Review the Databricks notebooks, parameterized ADF inputs, MongoDB loaders, Synapse SQL scripts, architecture documentation, and local Olist datasets.</p>
+          </div>
+          <a class="button primary" href="https://github.com/esodevops/BigDataProject-olist-ecommerce-data-pipeline/blob/main/notebooks/databricks.ipynb" target="_blank" rel="noopener noreferrer">Open repository</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+      <div class="container">
+        <p class="eyebrow">Contact</p>
+        <h2>Let's build dependable data systems.</h2>
+        <p>Have a cloud data project in mind? Send me a message and let's discuss how to turn fragmented sources into scalable, analytics-ready solutions.</p>
+        <div class="contact-form">
+          <form method="post" action="https://formspree.io/f/mzdlpnbb">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" autocomplete="name" placeholder="Your name" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" autocomplete="email" placeholder="Your email" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full">
+                <label for="subject">Subject</label>
+                <input type="text" name="subject" id="subject" placeholder="Subject">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full">
+                <label for="message">Message</label>
+                <textarea name="message" id="message" placeholder="Tell me about your project..." required></textarea>
+              </div>
+            </div>
+            <div class="form-actions">
+              <input type="submit" value="Send Message" class="button primary">
+              <input type="reset" value="Clear Form" class="button">
+            </div>
+          </form>
+        </div>
+        <div class="social-section">
+          <h3>Find me online</h3>
+          <ul class="social">
+            <li><a href="https://www.linkedin.com/in/sulaimon-ekundayo/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a></li>
+            <li><a href="https://github.com/esodevops" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.373 0 12a12 12 0 0 0 8.207 11.387c.6.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.5 11.5 0 0 1 12 6.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576A12.004 12.004 0 0 0 24 12c0-6.627-5.373-12-12-12z"/></svg></a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="eyebrow">Olist Azure Pipeline</p>
+      <h2>Raw commerce data. Cloud-scale decisions.</h2>
+      <p>End-to-End Azure Big Data Engineering Portfolio Project</p>
+    </div>
+    <div class="container">
+      <div class="copyright">&copy; <span id="year"></span> Sulaimon Ekundayo. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    const menuButton = document.querySelector(".menu-toggle");
+    const navigation = document.querySelector("#nav-links");
+
+    menuButton.addEventListener("click", () => {
+      const isOpen = navigation.classList.toggle("open");
+      menuButton.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    navigation.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        navigation.classList.remove("open");
+        menuButton.setAttribute("aria-expanded", "false");
+      });
+    });
+
+    document.querySelector("#year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
