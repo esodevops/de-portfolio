@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="PropTech 360: a property analytics pipeline using Python, Pandas, PySpark, PostgreSQL and AWS. Explore data quality, monthly KPIs and reproducible evidence.">
+<title>PropTech 360 | Sulaimon Ekundayo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/proptech360.css">
+<link rel="shortcut icon" href="../assets/portfolio.svg" type="image/x-icon">
+
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<nav aria-label="Main navigation"><div class="container nav-inner">
+<a class="brand" href="#top">PropTech 360</a>
+<div class="nav-links"><a href="index.html">Home</a><a href="#overview">Overview</a><a href="#pipeline">Pipeline</a><a href="#results">Results</a><a href="#contact">Contact</a></div>
+</div></nav>
+<div class="container back-row"><a class="back-btn" href="portfolio-2.html">&#8592; Back to Portfolio</a></div>
+<header class="hero" id="top"><div class="container">
+<p class="eyebrow">Property management · Data engineering</p>
+<h1>Reliable data.<br>Clearer property decisions.</h1>
+<p class="hero-copy">From five imperfect CSV extracts to a monthly view of occupancy, rent, maintenance and energy. A reproducible pipeline built with Python, Spark, PostgreSQL and AWS.</p>
+<div class="actions"><a class="button primary" href="#pipeline">Explore the pipeline</a><a class="button" href="https://github.com/esodevops/proptech360-capstone" target="_blank" rel="noopener">View GitHub &#8599;</a></div>
+</div></header>
+<main id="main">
+<section id="overview"><div class="container">
+<div class="section-heading"><div><p class="eyebrow">Project overview</p><h2>One portfolio.<br>One dependable monthly view.</h2></div><p class="lead">Property teams need to know which units are occupied, what rent their leases represent, whether maintenance meets response targets, and where energy use is high. PropTech 360 connects those questions through a shared property-and-month reporting model. The capstone uses fictional records for January–June 2026.</p></div>
+<div class="stats" aria-label="Project scope"><div class="stat"><strong>5</strong><span>Source datasets</span></div><div class="stat"><strong>12</strong><span>Properties</span></div><div class="stat"><strong>6</strong><span>Reporting months</span></div><div class="stat"><strong>72</strong><span>Property-month records</span></div></div>
+</div></section>
+<section class="problem" id="analytics"><div class="container">
+<div class="section-heading"><div><p class="eyebrow">Business questions</p><h2>Make the numbers useful.</h2></div><p class="lead">Each metric has a clear definition, so a portfolio manager can understand both the result and the records behind it.</p></div>
+<div class="cards"><article class="card"><span class="card-number">01</span><h3>Occupancy</h3><p>Which properties have the strongest occupancy? Measure occupied active units against all active units at month end.</p></article>
+<article class="card"><span class="card-number">02</span><h3>Contractual rent</h3><p>How much monthly rent do active leases represent? Report by property and city, with contractual rent kept distinct from cash collected.</p></article>
+<article class="card"><span class="card-number">03</span><h3>Maintenance response</h3><p>Are resolved work orders meeting their Service Level Agreement? Missing response times count as noncompliant.</p></article>
+<article class="card"><span class="card-number">04</span><h3>Energy performance</h3><p>How much energy is recorded each month? Compare property consumption per square metre with the portfolio benchmark.</p></article>
+<article class="card"><span class="card-number">05</span><h3>Data quality</h3><p>Which records cannot be trusted? Retain invalid rows in quarantine with their original values and explicit rejection reasons.</p></article>
+<article class="card"><span class="card-number">06</span><h3>Repeatable reporting</h3><p>Can the same inputs produce consistent results? Track source hashes, replace derived files, and upsert database rows safely.</p></article>
+</div></div></section>
+<section class="pipeline" id="pipeline"><div class="container">
+<div class="section-heading"><div><p class="eyebrow">Five project topics</p><h2>Follow the data.<br>Understand every step.</h2></div><p class="lead">The notebook and Python modules follow the same stages. Each stage produces a clear output that the next stage can validate and use.</p></div><div class="steps"><article class="step"><span>01</span><h3>Python ingestion</h3><p>Read properties, units, leases, work orders and meter readings. Check required columns and save row counts, timestamps and SHA-256 hashes.</p></article>
+<article class="step"><span>02</span><h3>Pandas validation</h3><p>Parse dates and numbers, check identifiers and relationships, and split accepted rows from quarantine. Input rows must equal accepted plus rejected rows.</p></article>
+<article class="step"><span>03</span><h3>PySpark curation</h3><p>Build month-end lease snapshots. Aggregate rent, occupancy, maintenance and energy separately, then write 72 unique records as month-partitioned Parquet.</p></article>
+<article class="step"><span>04</span><h3>PostgreSQL mart</h3><p>Load property and month dimensions with a monthly fact table. Upsert existing keys, enforce constraints, and compare stored metrics with Spark output.</p></article>
+<article class="step"><span>05</span><h3>AWS lake & Athena</h3><p>Upload raw CSVs and curated Parquet to S3. Lambda audits raw arrivals; Glue describes the curated dataset so Athena can query it.</p></article>
+</div><p class="lead" style="margin-top:28px">Spark performs the transformations locally. The S3-triggered Lambda records arrival metadata; curated Parquet is uploaded separately.</p></div></section>
+<section id="database"><div class="container">
+<div class="section-heading"><div><p class="eyebrow">Dimensional model</p><h2>One row per property, per month.</h2></div><p class="lead">Two dimensions provide the reporting context. A shared fact table holds counts and amounts, while PostgreSQL calculates rates from those totals. The combined property and month key prevents duplicate facts.</p></div>
+<div class="schema-layout"><div class="table-list">
+<div class="table-item"><code>dim_property</code><small>Property identifier, name and city</small></div>
+<div class="table-item"><code>dim_month</code><small>First day of each reporting month</small></div>
+<div class="table-item"><code>fact_property_month</code><small>Occupancy, rent, work orders, energy and floor area</small></div>
+<div class="table-item"><code>portfolio_dashboard</code><small>Monthly totals and weighted portfolio rates</small></div>
+</div><figure class="erd"><div class="model" aria-label="Property and month dimensions join to the monthly fact table">
+<div class="model-box"><strong>Property + Month</strong><p>12 properties × 6 months</p></div><div class="model-arrow" aria-hidden="true">↓</div>
+<div class="model-box fact"><strong>fact_property_month</strong><p>72 unique property-month records</p></div><div class="model-arrow" aria-hidden="true">↓</div>
+<div class="model-box"><strong>Portfolio reporting</strong><p>Occupancy · Rent · SLA · Energy</p></div></div><figcaption>Zero denominators produce null rates. Lease end dates are inclusive; energy intensity uses all accepted unit floor area.</figcaption></figure></div>
+</div></section>
+<section class="problem" id="results"><div class="container">
+<div class="section-heading"><div><p class="eyebrow">Recorded results</p><h2>Six months.<br>Matching local totals.</h2></div><p class="lead">The current local Parquet data matches the saved PostgreSQL dashboard results for each month, rounded to two decimals. This comparison uses existing artifacts; it is not a live database query.</p></div>
+<div class="table-scroll"><table><caption style="padding:16px;text-align:left">Portfolio energy consumption · January–June 2026</caption><thead><tr><th scope="col">Month</th><th scope="col">Local Parquet (kWh)</th><th scope="col">Saved PostgreSQL (kWh)</th><th scope="col">Difference (kWh)</th></tr></thead><tbody><tr><th scope="row">2026-01-01</th><td>160,098.66</td><td>160,098.66</td><td>0.00</td></tr>
+<tr><th scope="row">2026-02-01</th><td>169,242.08</td><td>169,242.08</td><td>0.00</td></tr>
+<tr><th scope="row">2026-03-01</th><td>166,593.93</td><td>166,593.93</td><td>0.00</td></tr>
+<tr><th scope="row">2026-04-01</th><td>165,089.40</td><td>165,089.40</td><td>0.00</td></tr>
+<tr><th scope="row">2026-05-01</th><td>167,188.95</td><td>167,188.95</td><td>0.00</td></tr>
+<tr><th scope="row">2026-06-01</th><td>161,039.67</td><td>161,039.67</td><td>0.00</td></tr>
+</tbody></table></div>
+<p class="note">The last verified full test run passed 39 tests across ingestion, validation, Spark and PostgreSQL. <a class="text-link" href="evidence/06_reconciliation/local_postgres_monthly_energy_comparison.csv" download>Download the comparison CSV</a>.</p>
+<div class="cards" style="margin-top:32px"><article class="card"><span class="card-number">S3</span><h3>Arrival auditing</h3><p>Audit screenshots capture the source file, size, ETag and accepted status. Repeated notifications use the same audit key.</p><p style="margin-top:16px"><a class="text-link" href="evidence/05_aws/04_audit/audit-b.png">View audit capture</a></p></article>
+<article class="card"><span class="card-number">SQL</span><h3>Athena evidence</h3><p>Query captures are available. Their month values are blank, so the Glue partition setup still needs correction before monthly AWS reconciliation is complete.</p><p style="margin-top:16px"><a class="text-link" href="evidence/05_aws/06_athena/athena-sql-2b-vs-pgAdmin.png">View recorded result</a></p></article>
+<article class="card"><span class="card-number">QA</span><h3>Traceable evidence</h3><p>Organized artifacts include the ingestion manifest, quality report, database queries and AWS screenshots. The evidence index records outstanding captures.</p><p style="margin-top:16px"><a class="text-link" href="https://github.com/esodevops/proptech360-capstone/blob/main/evidence/README.md" target="_blank" rel="noopener">Read evidence index</a></p></article></div>
+</div></section>
+<section class="tools" aria-labelledby="tools-title"><div class="container"><p class="eyebrow">Technology</p><h2 id="tools-title">A practical data stack.</h2><div class="tool-row"><span class="tool">Python</span><span class="tool">Pandas</span><span class="tool">PySpark</span><span class="tool">Parquet</span><span class="tool">PostgreSQL</span><span class="tool">SQL</span><span class="tool">Amazon S3</span><span class="tool">AWS Lambda</span><span class="tool">AWS Glue</span><span class="tool">Amazon Athena</span><span class="tool">CloudWatch</span><span class="tool">unittest</span></div></div></section>
+    <section class="contact-section" id="contact">
+      <div class="container">
+        <h2>Let's Work Together</h2>
+        <p>
+          Have a project in mind? I'd love to hear about it. Send me a message and let's discuss how we can turn your
+          data challenges into opportunities.
+        </p>
+
+        <div class="contact-form">
+          <form method="post" action="https://formspree.io/f/mzdlpnbb">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" placeholder="Your name" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="Your email" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full">
+                <label for="subject">Subject</label>
+                <input type="text" name="subject" id="subject" placeholder="Subject">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full">
+                <label for="message">Message</label>
+                <textarea name="message" id="message" placeholder="Tell me about your project..." required></textarea>
+              </div>
+            </div>
+            <div class="form-actions">
+              <input type="submit" value="Send Message" class="button primary">
+              <input type="reset" value="Clear Form" class="button">
+            </div>
+          </form>
+        </div>
+
+        <div class="social-section">
+          <h3>Find me on ...</h3>
+          <ul class="social">
+            <li>
+              <a href="https://www.linkedin.com/in/sulaimon-ekundayo/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/esodevops" target="_blank" rel="noopener" aria-label="GitHub">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+</main><footer><div class="container footer-inner"><div><p class="eyebrow">PropTech 360</p><h2>Reliable data. Clearer property decisions.</h2><p>January–June 2026 · Synthetic property data · Sulaimon Ekundayo</p></div><a class="button" href="index.html">&#8592; Back to index.html</a></div><div class="container"><div class="copyright">&copy; 2026 Sulaimon Ekundayo. All rights reserved.</div></div></footer>
+</body></html>
