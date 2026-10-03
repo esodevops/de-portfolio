@@ -968,3 +968,6 @@ tr:last-child td {
     transition: none !important;
   }
 }
+
+
+.card code, .lead code { overflow-wrap: anywhere; }
