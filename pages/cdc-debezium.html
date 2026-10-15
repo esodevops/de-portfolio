@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Capture PostgreSQL changes with Debezium and Kafka, process events with Python, and observe the pipeline through a live dashboard."
+    />
+    <title>PostgreSQL CDC | Data Engineering Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/css/cdc-debezium.css" />
+    <link rel="icon" type="image/svg+xml" href="../assets/portfolio.svg" />
+  </head>
+  <body>
+    <nav aria-label="Main navigation">
+      <div class="container nav-inner">
+        <a class="brand" href="#">PostgreSQL CDC</a>
+        <div class="nav-links">
+          <a href="../index.html">Home</a><a href="#overview">Overview</a><a href="#pipeline">Pipeline</a
+          ><a href="#database">Database</a><a href="#dashboard">Dashboard</a><a href="#contact">Contact</a>
+        </div>
+      </div>
+    </nav>
+    <div class="container"><a class="back-link" href="../index.html#portfolio">← Back to Portfolio</a></div>
+    <header class="hero">
+      <div class="container">
+        <p class="eyebrow">Change data capture · Data Engineering</p>
+        <h1>Every change.<br />A story in motion.</h1>
+        <p class="hero-copy">An order is placed. A price changes. Stock moves. Follow each committed change from PostgreSQL through Debezium and Kafka to a live dashboard that makes the event stream visible.</p>
+        <div class="actions">
+          <a class="button primary" href="#pipeline">Explore the pipeline</a
+          ><a
+            class="button"
+            href="https://github.com/esodevops/postgres-debezium-kafka-cdc-pipeline"
+            target="_blank"
+            rel="noopener"
+            >View GitHub</a
+          >
+        </div>
+      </div>
+    </header>
+    <main>
+      <section id="overview">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Project overview</p>
+              <h2>From database changes to visible events.</h2>
+            </div>
+            <p class="lead">An online store never stands still, and its data tells the story. This project captures committed PostgreSQL changes with Debezium, streams them through Kafka, and processes them in Python. A live Node.js dashboard brings the activity into view, connecting each database change to the systems that carry it.</p>
+          </div>
+          <div class="stats" aria-label="Project scope">
+            <div class="stat"><strong>5</strong><span>Captured e-commerce tables</span></div>
+            <div class="stat"><strong>6</strong><span>Docker Compose services</span></div>
+            <div class="stat"><strong>4</strong><span>CDC operation types</span></div>
+            <div class="stat"><strong>200</strong><span>Recent events retained</span></div>
+          </div>
+          <div class="flow" aria-label="Data flow">
+            <div><strong>PostgreSQL</strong><small>Committed row changes</small></div>
+            <div><strong>Debezium →</strong><small>Snapshot + WAL capture</small></div>
+            <div><strong>Kafka →</strong><small>Table-specific topics</small></div>
+            <div><strong>Python →</strong><small>Processing + telemetry</small></div>
+            <div><strong>Dashboard</strong><small>Node.js + browser SSE</small></div>
+          </div>
+        </div>
+      </section>
+      <section class="problem">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Why this project</p>
+              <h2>Understand what happens after a row changes.</h2>
+            </div>
+            <p class="lead">What does it take to turn a database update into an event you can inspect? Explore the full journey through replication, Kafka topics, Python handlers, and live monitoring in one reproducible local environment.</p>
+          </div>
+          <div class="cards">
+            <article class="card">
+              <span class="card-number">01</span>
+              <h3>Catch the change as it happens</h3>
+              <p>Start with a snapshot of existing records, then follow committed changes through PostgreSQL logical replication. Debezium turns database activity into a continuing stream of events.</p>
+            </article>
+            <article class="card">
+              <span class="card-number">02</span>
+              <h3>Turn row changes into event streams</h3>
+              <p>Route customer, product, order, order-item, and inventory changes into dedicated Kafka topics, where a Python consumer picks them up and reports its progress.</p>
+            </article>
+            <article class="card">
+              <span class="card-number">03</span>
+              <h3>See what your pipeline is doing</h3>
+              <p>Connect the events you see to the metrics that explain them. Explore throughput, observed latency, committed consumer lag, and component health alongside recent changes.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="pipeline" id="pipeline">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Data pipeline</p>
+              <h2>A change travels through six stages.</h2>
+            </div>
+            <p class="lead">Follow an order beyond the checkout. Generated commerce activity creates real database changes that travel through six connected stages, from a committed transaction to an observable browser event.</p>
+          </div>
+          <div class="steps">
+            <article class="step">
+              <span>01</span>
+              <h3>Bring the storefront to life</h3>
+              <p>Create customers, place orders, move purchases toward delivery, and adjust stock and prices. A Python and Faker generator gives the pipeline a changing storefront to follow.</p>
+            </article>
+            <article class="step">
+              <span>02</span>
+              <h3>Where every transaction begins</h3>
+              <p>PostgreSQL 16 holds the commerce records. Once transactions commit, logical replication through pgoutput exposes their changes to the capture layer.</p>
+            </article>
+            <article class="step">
+              <span>03</span>
+              <h3>Give database changes a voice</h3>
+              <p>Debezium captures the opening snapshot and subsequent changes, preserving before-and-after row images so each event carries the context behind the update.</p>
+            </article>
+            <article class="step">
+              <span>04</span>
+              <h3>Keep the stream moving</h3>
+              <p>A Kafka broker running in KRaft mode stores changes across five commerce topics, giving the consumer a structured stream of customer, catalog, order, and inventory activity.</p>
+            </article>
+            <article class="step">
+              <span>05</span>
+              <h3>Make each event count</h3>
+              <p>Python handlers log incoming changes and track session activity. Atomic JSON snapshots share those observations with the dashboard through a Docker volume.</p>
+            </article>
+            <article class="step">
+              <span>06</span>
+              <h3>Watch the journey unfold</h3>
+              <p>Node.js combines consumer telemetry with infrastructure checks, then sends fresh observations to the browser through Server-Sent Events. Watch activity unfold from one dashboard.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section id="database">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Database &amp; event model</p>
+              <h2>Five tables. One changing business.</h2>
+            </div>
+            <p class="lead">Behind every order is a connected set of customers, products, line items, and stock records. The ecommerce schema brings them together, while CDC events retain source metadata and operation codes that explain where each change began.</p>
+          </div>
+          <div class="schema-layout">
+            <div class="table-list">
+              <div class="table-item"><code>customers</code><small>Profiles and loyalty tiers</small></div>
+              <div class="table-item"><code>products</code><small>Catalog and pricing</small></div>
+              <div class="table-item"><code>orders</code><small>Purchases and lifecycle status</small></div>
+              <div class="table-item"><code>order_items</code><small>Products within each order</small></div>
+              <div class="table-item"><code>inventory</code><small>Stock and available quantity</small></div>
+            </div>
+            <figure>
+              <pre class="event"><code>{
+  "before": { "tier": "silver" },
+  "after":  { "tier": "gold" },
+  "source": {
+    "db": "enterprise_db",
+    "schema": "ecommerce",
+    "table": "customers"
+  },
+  "op": "u"
+}</code></pre>
+              <figcaption class="event-caption">
+                Illustrative update envelope. Operation codes: <code>c</code> create, <code>u</code> update,
+                <code>d</code> delete, and <code>r</code> snapshot read. The generator creates and updates records;
+                deletes can be tested manually.
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+      <section class="problem" id="dashboard">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Live observability</p>
+              <h2>See the stream.<br />Inspect the details.</h2>
+            </div>
+            <p class="lead">Open the dashboard to see database changes become visible activity. Consumer telemetry and read-only infrastructure checks power its event feed, charts, and diagnostics. The screenshot below captures a moment from the running local pipeline.</p>
+          </div>
+          <figure style="margin:0 0 40px"><a href="../images/dashboard.png" target="_blank" rel="noopener" aria-label="Open the CDC dashboard screenshot at full size"><img src="../images/dashboard.png" alt="CDC dashboard showing PostgreSQL, Debezium, and Kafka pipeline health, 139 processed events, performance charts, event breakdown, and the event explorer" width="1918" height="953" loading="lazy" decoding="async" style="width:100%;height:auto;border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow)"></a><figcaption class="event-caption">The CDC dashboard in action: pipeline health, consumer metrics, event breakdown, and searchable change events. Select the image to view it at full size.</figcaption></figure><div class="cards">
+            <article class="card">
+              <span class="card-number">01</span>
+              <h3>Feel the pulse of the pipeline</h3>
+              <p>See how quickly events arrive and how long they take to reach the consumer. Observed throughput and rolling p95 latency reveal the stream’s recent rhythm across up to five minutes of chart history.</p>
+            </article>
+            <article class="card">
+              <span class="card-number">02</span>
+              <h3>Find the event behind the change</h3>
+              <p>Narrow the latest 200 events by topic, operation, time, or payload. Pause the feed to examine a moment in detail while the pipeline keeps processing.</p>
+            </article>
+            <article class="card">
+              <span class="card-number">03</span>
+              <h3>See exactly what changed</h3>
+              <p>Open an event and compare the row before and after the change. Inspect its raw envelope, Kafka partition, and offset to connect the business update with its place in the stream.</p>
+            </article>
+            <article class="card">
+              <span class="card-number">04</span>
+              <h3>Look beneath the surface</h3>
+              <p>Look beyond the event feed to PostgreSQL health, connector task states, topic partitions, and committed consumer lag. Bring the supporting infrastructure into the same view.</p>
+            </article>
+            <article class="card">
+              <span class="card-number">05</span>
+              <h3>Stay connected to the stream</h3>
+              <p>Fresh observations reach the browser through Server-Sent Events. Automatic reconnection and visible stale-data states help you tell when the view is current.</p>
+            </article>
+            <article class="card">
+              <span class="card-number">06</span>
+              <h3>Run the story on your machine</h3>
+              <p>Start the stack with Docker Compose, register the connector, and launch the generator. Open localhost:8090 to explore how your own database changes travel through the pipeline.</p>
+            </article>
+          </div>
+          <p class="event-caption">
+            Event counts reset with the consumer session. Latency uses retained live events and depends on clock
+            agreement. Consumer handlers currently log changes; a downstream database sink is not implemented.
+          </p>
+        </div>
+      </section>
+      <section class="tools" aria-labelledby="tools-title">
+        <div class="container">
+          <p class="eyebrow">Technology</p>
+          <h2 id="tools-title">A practical streaming stack.</h2>
+          <div class="tool-row">
+            <span class="tool">PostgreSQL 16</span><span class="tool">Debezium</span
+            ><span class="tool">Apache Kafka / KRaft</span><span class="tool">Kafka Connect</span
+            ><span class="tool">Python</span><span class="tool">Confluent Kafka</span><span class="tool">Faker</span
+            ><span class="tool">Node.js</span><span class="tool">JavaScript</span
+            ><span class="tool">Server-Sent Events</span><span class="tool">Docker Compose</span
+            ><span class="tool">Kafka UI</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact-section" id="contact">
+        <div class="container">
+          <h2>Let's Work Together</h2>
+          <p>Have data that needs to move, systems that need to connect, or a pipeline you want to understand? Tell me what you’re building, and let’s discuss how to turn it into a dependable flow of useful data.</p>
+
+          <div class="contact-form">
+            <form method="post" action="https://formspree.io/f/mzdlpnbb">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" name="name" id="name" placeholder="Your name" required />
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" name="email" id="email" placeholder="Your email" required />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group full">
+                  <label for="subject">Subject</label>
+                  <input type="text" name="subject" id="subject" placeholder="Subject" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group full">
+                  <label for="message">Message</label>
+                  <textarea name="message" id="message" placeholder="Tell me about your project..." required></textarea>
+                </div>
+              </div>
+              <div class="form-actions">
+                <input type="submit" value="Send Message" class="button primary" />
+                <input type="reset" value="Clear Form" class="button" />
+              </div>
+            </form>
+          </div>
+
+          <div class="social-section">
+            <h3>Let’s connect</h3>
+            <ul class="social">
+              <li>
+                <a
+                  href="https://www.linkedin.com/in/sulaimon-ekundayo/"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="LinkedIn"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                    />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/esodevops" target="_blank" rel="noopener" aria-label="GitHub">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                    />
+                  </svg>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-inner">
+        <div>
+          <p class="eyebrow">PostgreSQL CDC</p>
+          <h2>Every change. A story in motion.</h2>
+          <p>Debezium, Kafka &amp; Live Observability · Data Engineering Portfolio Project</p>
+        </div>
+      </div>
+      <div class="container">
+        <div class="copyright">
+          &copy;
+          <script>
+            document.write(new Date().getFullYear());
+          </script>
+          Sulaimon Ekundayo. All rights reserved.
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
